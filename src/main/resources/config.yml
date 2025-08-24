@@ -1,0 +1,8 @@
+####################
+# Panitacraft 2.75 #
+####################
+
+prefix: "<b><gradient:#B87333:#D55555:#B87333>PANITACRAFT</gradient></b> <#393341>»</#393341><reset> "
+
+optimization:
+  enabled: true
