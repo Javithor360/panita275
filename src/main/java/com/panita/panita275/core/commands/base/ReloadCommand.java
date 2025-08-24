@@ -14,7 +14,8 @@ import org.bukkit.command.CommandSender;
         parent = "panitacraft",
         name = "reload",
         description = "Reload PanitaCraft's configuration and all active modules.",
-        syntax = "/panitacraft reload"
+        syntax = "/panitacraft reload",
+        permission = "panitacraft.admin.command.reload"
 )
 public class ReloadCommand implements AdvancedCommand {
     @Override

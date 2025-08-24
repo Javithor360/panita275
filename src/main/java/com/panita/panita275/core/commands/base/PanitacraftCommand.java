@@ -9,7 +9,8 @@ import org.bukkit.command.CommandSender;
         name = "panitacraft",
         description = "PanitaCraft's main command",
         syntax = "/panitacraft <subcommand>",
-        aliases = {"pc", "panita"}
+        aliases = {"pc", "panita"},
+        permission = "panitacraft.admin.command.panitacraft"
 )
 public class PanitacraftCommand implements AdvancedCommand {
     @Override
