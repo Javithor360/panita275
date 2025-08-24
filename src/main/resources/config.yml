@@ -24,4 +24,4 @@ quality-of-life:
     sentPrivateConfirmation: "&7Has compartido tu ubicación con &b%player_name%&7."
     playSound: true
     soundPublic: "minecraft:entity.player.levelup"
-    soundPrivate: "minecraft:block.chest.open"
+    soundPrivate: "minecraft:entity.player.levelup"
