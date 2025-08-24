@@ -47,4 +47,15 @@ public class SoundUtils {
             player.playSound(player.getLocation(), sound, volume, pitch);
         }
     }
+
+    public static void playGlobal(String soundKey, float volume, float pitch) {
+        Sound sound = getSound(soundKey);
+        if (sound == null) {
+            sound = Sound.ENTITY_PLAYER_LEVELUP;
+        }
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.playSound(player.getLocation(), sound, volume, pitch);
+        }
+    }
 }

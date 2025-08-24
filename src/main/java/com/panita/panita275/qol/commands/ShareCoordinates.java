@@ -35,12 +35,6 @@ public class ShareCoordinates implements AdvancedCommand, TabSuggestingCommand {
         SoundUtils.play(player, key, 1.0f, 1.0f);
     }
 
-    private void broadcastSound(String path, String fallback, Player source) {
-        if (!playSoundEnabled()) return;
-        String key = Panitacraft.getConfigManager().getString(path, fallback);
-        source.getWorld().getPlayers().forEach(p -> SoundUtils.play(p, key, 1.0f, 1.0f));
-    }
-
     private void send(Player target, String path, String def, Player context) {
         String msg = Panitacraft.getConfigManager().getString(path, def);
         Messenger.prefixedPlaceholderSend(target, context, msg);
@@ -78,7 +72,14 @@ public class ShareCoordinates implements AdvancedCommand, TabSuggestingCommand {
                     ConfigDefaults.QOL_SHARECOORDINATES_PUBLICMESSAGE);
 
             Messenger.prefixedPlaceholderBroadcast(player, msg);
-            broadcastSound("quality-of-life.sharecoordinates.soundPublic", ConfigDefaults.QOL_SHARECOORDINATES_SOUNDPUBLIC, player);
+
+            if (playSoundEnabled()) {
+                String key = Panitacraft.getConfigManager().getString(
+                        "quality-of-life.sharecoordinates.soundPublic",
+                        ConfigDefaults.QOL_SHARECOORDINATES_SOUNDPUBLIC
+                );
+                SoundUtils.playGlobal(key, 1.0f, 1.0f);
+            }
         }
     }
 
