@@ -49,6 +49,8 @@ public class ModuleManager {
     private void registerOne(PluginModule m) {
         // Check if the module is enabled in the config
         boolean enabled = configManager.getBoolean(m.id() + ".enabled", true);
+        m.setEnabled(enabled);
+
         if (!enabled) {
             plugin.getLogger().info("[Module] " + m.id() + " -> disabled in config.yml");
             return;
@@ -75,5 +77,18 @@ public class ModuleManager {
             catch (Exception ignored) {}
         }
         active.clear();
+    }
+
+    /**
+     * Retrieves a registered module by its ID.
+     *
+     * @param id The ID of the module.
+     * @return The PluginModule instance, or null if not found.
+     */
+    public PluginModule getModule(String id) {
+        return active.stream()
+                .filter(m -> m.id().equalsIgnoreCase(id))
+                .findFirst()
+                .orElse(null);
     }
 }
