@@ -1,5 +1,6 @@
-package com.panita.panita275.core.util;
+package com.panita.panita275.core.config;
 
+import com.panita.panita275.core.util.Global;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,7 +13,13 @@ public class Config {
     public static void load(JavaPlugin plugin) {
         plugin.saveDefaultConfig();
         config = plugin.getConfig();
-        Global.load(plugin);
+        Global.load();
+    }
+
+    public static void reload(JavaPlugin plugin) {
+        plugin.reloadConfig();
+        config = plugin.getConfig();
+        Global.load();
     }
 
     public static String getString(String path, String def) {
