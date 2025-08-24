@@ -4,6 +4,7 @@ import com.panita.panita275.core.modules.PluginModule;
 
 public class OptimizationModule implements PluginModule {
     private boolean enabled;
+    public static String packageName = "com.panita.panita275.optimization";
 
     @Override
     public String id() {
@@ -12,7 +13,7 @@ public class OptimizationModule implements PluginModule {
 
     @Override
     public String basePackage() {
-        return "com.panita.panita275.optimization";
+        return packageName;
     }
 
     @Override
