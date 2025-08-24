@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 
 public final class Panitacraft extends JavaPlugin {
+    private static Panitacraft instance;
     private ModuleManager moduleManager;
     private static ConfigManager configManager;
 
@@ -21,6 +22,8 @@ public final class Panitacraft extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         getLogger().info("Panitacraft is starting up!");
+
+        instance = this;
 
         // Messenger setup
         BukkitAudiences adventure = BukkitAudiences.create(this);
@@ -58,6 +61,24 @@ public final class Panitacraft extends JavaPlugin {
      * @return The ModuleManager instance.
      */
     public static ModuleManager getModuleManager() {
-        return getPlugin(Panitacraft.class).moduleManager;
+        return instance.moduleManager;
+    }
+
+    /**
+     * Sets the ConfigManager instance.
+     *
+     * @param manager The ConfigManager instance to set.
+     */
+    public static void setConfigManager(ConfigManager manager) {
+        configManager = manager;
+    }
+
+    /**
+     * Gets the singleton instance of the Panitacraft plugin.
+     *
+     * @return The Panitacraft instance.
+     */
+    public static Panitacraft getInstance() {
+        return instance;
     }
 }
