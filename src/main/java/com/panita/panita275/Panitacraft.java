@@ -3,6 +3,7 @@ package com.panita.panita275;
 import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.core.commands.CommandRegistry;
 import com.panita.panita275.core.config.Config;
+import com.panita.panita275.core.config.ConfigManager;
 import com.panita.panita275.core.listeners.ListenerRegistry;
 import com.panita.panita275.core.modules.ModuleManager;
 import com.panita.panita275.core.modules.PluginModule;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public final class Panitacraft extends JavaPlugin {
     private ModuleManager moduleManager;
+    private static ConfigManager configManager;
 
     @Override
     public void onEnable() {
@@ -26,6 +28,8 @@ public final class Panitacraft extends JavaPlugin {
 
         // Config setup
         Config.load(this);
+        configManager = new ConfigManager(this, Config.raw());
+
         new CommandRegistry(this).registerAll("com.panita.panita275.core.commands.base"); // load base commands first
         moduleManager = new ModuleManager(this);
         moduleManager.register(new OptimizationModule());
@@ -37,5 +41,14 @@ public final class Panitacraft extends JavaPlugin {
 
         // Plugin shutdown logic
         getLogger().info("Panitacraft is shutting down!");
+    }
+
+    /**
+     * Gets the ConfigManager instance.
+     *
+     * @return The ConfigManager instance.
+     */
+    public static ConfigManager getConfigManager() {
+        return configManager;
     }
 }

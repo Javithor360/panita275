@@ -24,4 +24,10 @@ public interface PluginModule {
 
     /** Called when the plugin is disabled */
     default void onDisable(JavaPlugin plugin) {}
+
+    /** Whether the module is enabled */
+    boolean isEnabled();
+
+    /** Set whether the module is enabled */
+    void setEnabled(boolean value);
 }
