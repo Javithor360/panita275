@@ -1,6 +1,7 @@
 package com.panita.panita275.core.chat;
 
 import com.panita.panita275.core.util.Global;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -48,6 +49,18 @@ public class Messenger {
         return MiniMessage.miniMessage().deserialize(combined);
     }
 
+    /**
+     * Applies PlaceholderAPI placeholders to a message for a specific player.
+     *
+     * @param player The player to apply placeholders for.
+     * @param msg The raw message with placeholders.
+     * @return The message with placeholders applied.
+     */
+    private static String applyPlaceholders(Player player, String msg) {
+        if (msg == null) return "";
+        return PlaceholderAPI.setPlaceholders(player, msg);
+    }
+
     // ----> Senders <----
 
     /**
@@ -90,6 +103,50 @@ public class Messenger {
         audiences.player(player).sendMessage(miniPrefixed(raw));
     }
 
+    /**
+     * Sends a message to a player applying PlaceholderAPI placeholders for a specific context player.
+     *
+     * @param receiver The player to send the message to.
+     * @param context The player to apply placeholders for.
+     * @param raw The raw message to send.
+     */
+    public static void placeholderSend(Player receiver, Player context, String raw) {
+        String parsed = applyPlaceholders(context, raw);
+        audiences.player(receiver).sendMessage(mini(parsed));
+    }
+
+    /**
+     * Sends a message to a player applying PlaceholderAPI placeholders for themselves.
+     *
+     * @param receiver The player to send the message to.
+     * @param raw The raw message to send.
+     */
+    public static void placeholderSend(Player receiver, String raw) {
+        placeholderSend(receiver, receiver, raw);
+    }
+
+    /**
+     * Sends a message to a player with the plugin prefix and applies PlaceholderAPI placeholders for a specific context player.
+     *
+     * @param receiver The player to send the message to.
+     * @param context The player to apply placeholders for.
+     * @param raw The raw message to send.
+     */
+    public static void prefixedPlaceholderSend(Player receiver, Player context, String raw) {
+        String parsed = applyPlaceholders(context, raw);
+        audiences.player(receiver).sendMessage(miniPrefixed(parsed));
+    }
+
+    /**
+     * Sends a message to a player applying PlaceholderAPI placeholders for themselves.
+     *
+     * @param receiver The player to send the message to.
+     * @param raw The raw message to send.
+     */
+    public static void prefixedPlaceholderSend(Player receiver, String raw) {
+        prefixedPlaceholderSend(receiver, receiver, raw);
+    }
+
     // ----> Broadcast <----
     /**
      * Broadcasts a message to all players.
@@ -109,6 +166,28 @@ public class Messenger {
     public static void prefixedBroadcast(String msg) {
         Component message = miniPrefixed(msg);
         audiences.all().sendMessage(message);
+    }
+
+    /**
+     * Broadcasts a message to all players and applies PlaceholderAPI placeholders for a specific player.
+     *
+     * @param context The player to apply placeholders for.
+     * @param raw The raw message to send.
+     */
+    public static void placeholderBroadcast(Player context, String raw) {
+        String parsed = applyPlaceholders(context, raw);
+        audiences.all().sendMessage(mini(parsed));
+    }
+
+    /**
+     * Broadcasts a message to all players with the plugin prefix and applies PlaceholderAPI placeholders for a specific player.
+     *
+     * @param context The player to apply placeholders for.
+     * @param raw The raw message to send.
+     */
+    public static void prefixedPlaceholderBroadcast(Player context, String raw) {
+        String parsed = applyPlaceholders(context, raw);
+        audiences.all().sendMessage(miniPrefixed(parsed));
     }
 
     // ---> Extra <----
