@@ -22,15 +22,21 @@ public interface PluginModule {
         return Panitacraft.getConfigManager();
     }
 
+    /** Whether the module is enabled */
+    boolean isEnabled();
+
+    /** Set whether the module is enabled */
+    void setEnabled(boolean value);
+
     /** Called when the plugin is enabled */
     default void onEnable(JavaPlugin plugin) {}
 
     /** Called when the plugin is disabled */
     default void onDisable(JavaPlugin plugin) {}
 
-    /** Whether the module is enabled */
-    boolean isEnabled();
-
-    /** Set whether the module is enabled */
-    void setEnabled(boolean value);
+    /** Called when the plugin is reloaded */
+    default void reload(JavaPlugin plugin) {
+        onDisable(plugin);
+        onEnable(plugin);
+    }
 }

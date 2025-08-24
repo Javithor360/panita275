@@ -15,10 +15,12 @@ import java.util.List;
  */
 public class ModuleManager {
     private final JavaPlugin plugin;
+    private final ConfigManager configManager;
     private final CommandRegistry cmdRegistry;
     private final ListenerRegistry listenerRegistry;
+
     private final List<PluginModule> active = new ArrayList<>();
-    private final ConfigManager configManager;
+    private final List<PluginModule> allModules = new ArrayList<>();
 
     /**
      * Constructs a ModuleManager for the given plugin.
@@ -30,6 +32,33 @@ public class ModuleManager {
         this.cmdRegistry = new CommandRegistry(plugin);
         this.listenerRegistry = new ListenerRegistry(plugin, plugin.getConfig());
         this.configManager = Panitacraft.getConfigManager();
+    }
+
+    /**
+     * Retrieves a registered module by its ID.
+     *
+     * @param id The ID of the module.
+     * @return The PluginModule instance, or null if not found.
+     */
+    public PluginModule getModule(String id) {
+        return active.stream()
+                .filter(m -> m.id().equalsIgnoreCase(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Returns the list of all registered modules, including inactive ones.
+     */
+    public List<PluginModule> getAllModules() {
+        return List.copyOf(allModules);
+    }
+
+    /**
+     * Returns a copy of the list of active modules.
+     */
+    public List<PluginModule> getActiveModules() {
+        return new ArrayList<>(active);
     }
 
     /**
@@ -47,6 +76,8 @@ public class ModuleManager {
      * @param m The module to register.
      */
     private void registerOne(PluginModule m) {
+        allModules.add(m);
+
         // Check if the module is enabled in the config
         boolean enabled = configManager.getBoolean(m.id() + ".enabled", true);
         m.setEnabled(enabled);
@@ -56,16 +87,20 @@ public class ModuleManager {
             return;
         }
 
+        enableModule(m);
+    }
+
+    private void enableModule(PluginModule module) {
         // Enable the module
-        plugin.getLogger().info("[Module] Enabling " + m.id());
+        plugin.getLogger().info("[Module] Enabling " + module.id());
 
         // Register commands and listeners
-        cmdRegistry.registerAll(m.commandPackage());
-        listenerRegistry.registerAll(m.listenerPackage());
-        m.onEnable(plugin);
+        cmdRegistry.registerAll(module.commandPackage());
+        listenerRegistry.registerAll(module.listenerPackage());
+        module.onEnable(plugin);
 
         // Add to active modules list
-        active.add(m);
+        active.add(module);
     }
 
     /**
@@ -80,15 +115,14 @@ public class ModuleManager {
     }
 
     /**
-     * Retrieves a registered module by its ID.
+     * Registers commands and listeners for a given module.
+     * If the module is not already active, it will be added to the active list.
      *
-     * @param id The ID of the module.
-     * @return The PluginModule instance, or null if not found.
+     * @param module The module whose commands and listeners are to be registered.
      */
-    public PluginModule getModule(String id) {
-        return active.stream()
-                .filter(m -> m.id().equalsIgnoreCase(id))
-                .findFirst()
-                .orElse(null);
+    public void registerCommandsAndListeners(PluginModule module) {
+        cmdRegistry.registerAll(module.commandPackage());
+        listenerRegistry.registerAll(module.listenerPackage());
+        if (!active.contains(module)) active.add(module);
     }
 }
