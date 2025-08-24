@@ -6,7 +6,6 @@ import com.panita.panita275.core.commands.dynamic.AdvancedCommand;
 import com.panita.panita275.core.commands.dynamic.TabSuggestingCommand;
 import com.panita.panita275.core.commands.identifiers.CommandMeta;
 import com.panita.panita275.core.commands.identifiers.SubCommandSpec;
-import com.panita.panita275.core.util.CommandUtils;
 import com.panita.panita275.optimization.OptimizationModule;
 import org.bukkit.command.CommandSender;
 
@@ -20,15 +19,16 @@ import java.util.stream.Stream;
         syntax = "/panitacraft optimization toggle <on|off>"
 )
 public class ToggleCommand implements AdvancedCommand, TabSuggestingCommand {
-    private final OptimizationModule optimizationModule;
-
-    public ToggleCommand(OptimizationModule module) {
-        this.optimizationModule = module;
-    }
-
     @Override
     public void execute(CommandSender sender, String[] args) {
-        boolean current = optimizationModule.isEnabled();
+        OptimizationModule module = (OptimizationModule) Panitacraft.getModuleManager().getModule("optimization");
+
+        if (module == null) {
+            Messenger.prefixedSend(sender, "<red>El módulo de optimizaciones no está disponible.</red>");
+            return;
+        }
+
+        boolean current = module.isEnabled();
         boolean value;
 
         if (args.length == 0) {
@@ -44,8 +44,8 @@ public class ToggleCommand implements AdvancedCommand, TabSuggestingCommand {
         }
 
         // Update the configuration and apply the new value
-        optimizationModule.configManager().updateBoolean(optimizationModule.id() + ".enabled", value,
-                (path, val) -> optimizationModule.setEnabled(val));
+        Panitacraft.getConfigManager().updateBoolean("optimization.enabled", value, null);
+        module.setEnabled(value);
 
         Messenger.prefixedSend(sender,
                 "<green>El módulo de optimizaciones ha sido " + (value ? "activado" : "desactivado") + ".</green>");

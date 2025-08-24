@@ -51,4 +51,13 @@ public final class Panitacraft extends JavaPlugin {
     public static ConfigManager getConfigManager() {
         return configManager;
     }
+
+    /**
+     * Gets the ModuleManager instance.
+     *
+     * @return The ModuleManager instance.
+     */
+    public static ModuleManager getModuleManager() {
+        return getPlugin(Panitacraft.class).moduleManager;
+    }
 }
