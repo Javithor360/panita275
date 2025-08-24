@@ -2,6 +2,7 @@ name: Panita275
 version: '1.0'
 main: com.panita.panita275.Panitacraft
 api-version: '1.21'
-prefix: [ Panitacraft275 ]
 authors: [ Javithor360 ]
 description: Personal Plugin for a Private Server
+
+softdepend: [PlaceholderAPI]

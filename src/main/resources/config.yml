@@ -6,3 +6,13 @@ prefix: "<b><gradient:#B87333:#D55555:#B87333>PANITACRAFT</gradient></b> <#39334
 
 optimization:
   enabled: true
+  debug: false
+  mobSpawning:
+    reduceWolfs: true
+quality-of-life:
+  enabled: true
+  totems:
+    alert: true
+    message: "&b%player_name% &7ha consumido un tótem en &bX: &7%player_x% &bY: &7%player_y% &bZ: &7%player_z% (&b%player_world_type%&7)"
+    playSound: true
+    soundName: ENTITY_VINDICATOR_HURT
