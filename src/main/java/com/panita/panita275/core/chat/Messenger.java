@@ -1,5 +1,6 @@
 package com.panita.panita275.core.chat;
 
+import com.panita.panita275.core.util.Global;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
