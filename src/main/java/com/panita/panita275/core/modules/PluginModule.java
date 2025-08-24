@@ -1,6 +1,7 @@
 package com.panita.panita275.core.modules;
 
-import com.panita.panita275.core.config.ConfigSection;
+import com.panita.panita275.Panitacraft;
+import com.panita.panita275.core.config.ConfigManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public interface PluginModule {
@@ -16,8 +17,10 @@ public interface PluginModule {
     /** The package where event listener classes are located */
     default String listenerPackage() { return basePackage() + ".listeners"; }
 
-    /** The configuration section for the module */
-    default ConfigSection config() { return new ConfigSection(id()); }
+    /** Access to the configuration manager */
+    default ConfigManager configManager() {
+        return Panitacraft.getConfigManager();
+    }
 
     /** Called when the plugin is enabled */
     default void onEnable(JavaPlugin plugin) {}
