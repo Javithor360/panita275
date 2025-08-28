@@ -5,6 +5,7 @@ import com.panita.panita275.core.commands.CommandRegistry;
 import com.panita.panita275.core.config.Config;
 import com.panita.panita275.core.config.ConfigManager;
 import com.panita.panita275.core.modules.ModuleManager;
+import com.panita.panita275.milestone_events.MilestoneEventsModule;
 import com.panita.panita275.optimization.OptimizationModule;
 import com.panita.panita275.qol.QualityOfLifeModule;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -34,7 +35,7 @@ public final class Panitacraft extends JavaPlugin {
 
         new CommandRegistry(this).registerAll("com.panita.panita275.core.commands.base"); // load base commands first
         moduleManager = new ModuleManager(this);
-        moduleManager.register(new OptimizationModule(), new QualityOfLifeModule());
+        moduleManager.register(new OptimizationModule(), new QualityOfLifeModule(), new MilestoneEventsModule());
     }
 
     @Override
