@@ -1,6 +1,10 @@
 package com.panita.panita275.qol;
 
+import com.panita.panita275.Panitacraft;
+import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.core.modules.PluginModule;
+import com.panita.panita275.qol.util.CustomItemManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class QualityOfLifeModule implements PluginModule {
     private boolean enabled;
@@ -14,6 +18,12 @@ public class QualityOfLifeModule implements PluginModule {
     @Override
     public String basePackage() {
         return packageName;
+    }
+
+    @Override
+    public void onEnable(JavaPlugin plugin) {
+        Messenger.prefixedBroadcast("&7El modulo de calidad de vida ha sido &aactivado&7.");
+        CustomItemManager.init(plugin.getDataFolder());
     }
 
     @Override
