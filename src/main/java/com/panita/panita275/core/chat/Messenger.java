@@ -2,15 +2,24 @@ package com.panita.panita275.core.chat;
 
 import com.panita.panita275.core.util.Global;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.title.Title;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.time.Duration;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Messenger {
     private static final MiniMessage mini = MiniMessage.miniMessage();
     private static BukkitAudiences audiences;
+
+    // Bossbar map to track active boss bars per player to handle updates/removals
+    private static final ConcurrentHashMap<UUID, BossBar> activeBars = new ConcurrentHashMap<>();
 
     /**
      * Initializes the Messenger class with the BukkitAudiences instance.
@@ -188,6 +197,83 @@ public class Messenger {
     public static void prefixedPlaceholderBroadcast(Player context, String raw) {
         String parsed = applyPlaceholders(context, raw);
         audiences.all().sendMessage(miniPrefixed(parsed));
+    }
+
+    // ---> BossBar <----
+
+    /**
+     * Creates or updates a boss bar for a player.
+     * @param player The player to show the boss bar to.
+     * @param rawMsg The raw message to display on the boss bar.
+     * @param color The color of the boss bar.
+     * @param overlay The overlay style of the boss bar.
+     * @param progress The progress of the boss bar (0.0 to 1.0).
+     */
+    public static void showBossBar(Player player, String rawMsg, BossBar.Color color, BossBar.Overlay overlay, float progress) {
+        String parsed = applyPlaceholders(player, rawMsg);
+        Component title = mini(parsed);
+
+        BossBar bar = activeBars.getOrDefault(player.getUniqueId(), BossBar.bossBar(title, progress, color, overlay));
+        bar.name(title);
+        bar.color(color);
+        bar.overlay(overlay);
+        bar.progress(progress);
+
+        audiences.player(player).showBossBar(bar);
+        activeBars.put(player.getUniqueId(), bar);
+    }
+
+    public static void hideBossBar(Player player) {
+        BossBar bar = activeBars.remove(player.getUniqueId());
+        if (bar != null) {
+            audiences.player(player).hideBossBar(bar);
+        }
+    }
+
+    // ---> Titles <----
+
+    /**
+     * Shows a title and subtitle to a player with specified timings.
+     * @param player The player to show the title to.
+     * @param rawTitle The raw title message.
+     * @param rawSub The raw subtitle message.
+     * @param fadeIn The duration for the title to fade in.
+     * @param stay The duration for the title to stay on screen.
+     * @param fadeOut The duration for the title to fade out.
+     */
+    public static void showTitle(Player player, String rawTitle, String rawSub,
+                                 Duration fadeIn, Duration stay, Duration fadeOut) {
+        String parsedTitle = applyPlaceholders(player, rawTitle);
+        String parsedSub   = applyPlaceholders(player, rawSub);
+
+        Title title = Title.title(
+                mini(parsedTitle),
+                mini(parsedSub),
+                Title.Times.times(fadeIn, stay, fadeOut)
+        );
+
+        audiences.player(player).showTitle(title);
+    }
+
+    /**
+     * Shows a title to a player with specified timings and no subtitle.
+     * @param player The player to show the title to.
+     * @param rawTitle The raw title message.
+     * @param fadeIn The duration for the title to fade in.
+     * @param stay The duration for the title to stay on screen.
+     * @param fadeOut The duration for the title to fade out.
+     */
+    public static void showTitle(Player player, String rawTitle,
+                                 Duration fadeIn, Duration stay, Duration fadeOut) {
+        showTitle(player, rawTitle, "", fadeIn, stay, fadeOut);
+    }
+
+    /**
+     * Clears any active title from a player.
+     * @param player The player to clear the title from.
+     */
+    public static void clearTitle(Player player) {
+        audiences.player(player).clearTitle();
     }
 
     // ---> Extra <----
