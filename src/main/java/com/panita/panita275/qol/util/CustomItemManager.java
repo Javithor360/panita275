@@ -76,11 +76,7 @@ public class CustomItemManager {
         if (items.has(name)) return SaveItemResult.DUPLICATE_NAME;
 
         try {
-            // Add a custom identifier to the item meta
-            ItemStack targetItem = item.clone();
-            ItemMeta meta = targetItem.getItemMeta();
-            NamespacedKey key = new NamespacedKey(Panitacraft.getInstance(), "custom_item_id");
-            meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, name);
+            ItemStack targetItem = addCustomMetadata(item, name);
 
             // Serialize the complete item including meta
             Map<String, Object> serialized = targetItem.serialize();
@@ -117,6 +113,28 @@ public class CustomItemManager {
     /** Returns a set of all saved item names */
     public static Set<String> getAllItemNames() {
         return items.keySet();
+    }
+
+    /**
+     * Adds the plugin's custom metadata to the given ItemStack.
+     * This does NOT save the item to the JSON file.
+     *
+     * @param item The ItemStack to tag.
+     * @param name The identifier to assign.
+     * @return A clone of the original ItemStack with the custom metadata applied.
+     */
+    public static ItemStack addCustomMetadata(ItemStack item, String name) {
+        if (item == null || item.getType().isAir()) return item;
+
+        ItemStack clone = item.clone();
+        ItemMeta meta = clone.getItemMeta();
+        if (meta == null) return clone;
+
+        NamespacedKey key = new NamespacedKey(Panitacraft.getInstance(), "custom_item_id");
+        meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, name);
+        clone.setItemMeta(meta);
+
+        return clone;
     }
 
     /**
