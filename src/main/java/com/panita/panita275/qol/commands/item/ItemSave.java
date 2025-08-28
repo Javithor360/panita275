@@ -1,21 +1,13 @@
 package com.panita.panita275.qol.commands.item;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.core.commands.dynamic.AdvancedCommand;
 import com.panita.panita275.core.commands.identifiers.SubCommandSpec;
 import com.panita.panita275.core.util.CommandUtils;
 import com.panita.panita275.qol.util.CustomItemManager;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 
 @SubCommandSpec(
         parent = "panitacraft item",
@@ -40,7 +32,7 @@ public class ItemSave implements AdvancedCommand {
             return;
         }
 
-        CustomItemManager.SaveItemResult result = CustomItemManager.saveItem(itemName, itemInHand);
+        CustomItemManager.ItemResult result = CustomItemManager.saveItem(itemName, itemInHand);
 
         switch (result) {
             case SUCCESS -> Messenger.prefixedSend(player, "&aItem &e" + itemName + " &asaved successfully.");

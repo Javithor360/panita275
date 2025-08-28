@@ -5,12 +5,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.panita.panita275.Panitacraft;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.FileReader;
@@ -25,9 +23,10 @@ public class CustomItemManager {
     private static File file;
 
     /** Result of attempting to save an item */
-    public enum SaveItemResult {
+    public enum ItemResult {
         SUCCESS,
         DUPLICATE_NAME,
+        NOT_FOUND,
         ERROR
     }
 
@@ -72,8 +71,8 @@ public class CustomItemManager {
      * @param item The ItemStack to save.
      * @return true if the item was saved successfully, false if an item with the same name already exists or an error occurred.
      */
-    public static SaveItemResult saveItem(String name, ItemStack item) {
-        if (items.has(name)) return SaveItemResult.DUPLICATE_NAME;
+    public static ItemResult saveItem(String name, ItemStack item) {
+        if (items.has(name)) return ItemResult.DUPLICATE_NAME;
 
         try {
             ItemStack targetItem = addCustomMetadata(item, name);
@@ -85,10 +84,10 @@ public class CustomItemManager {
 
             // Save to file
             saveItems();
-            return SaveItemResult.SUCCESS;
+            return ItemResult.SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
-            return SaveItemResult.ERROR;
+            return ItemResult.ERROR;
         }
     }
 
@@ -107,6 +106,23 @@ public class CustomItemManager {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    /**
+     * Removes a saved item by its custom name.
+     * @param name The name of the item to remove.
+     * @return ItemResult indicating success, not found, or error.
+     */
+    public static ItemResult removeItem(String name) {
+        if (!items.has(name)) return ItemResult.NOT_FOUND;
+        try {
+            items.remove(name);
+            saveItems();
+            return ItemResult.SUCCESS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ItemResult.ERROR;
         }
     }
 
