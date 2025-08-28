@@ -52,13 +52,14 @@ public class MilestoneEventManager {
 
             // BossBar
             String bossBarTitle = config.getString(key + ".bossbar.title", "Evento: %current_progress% / %next_milestone%");
+            String bossBarFinalTitle = config.getString(key + ".bossbar.finalGoalReachedTitle", "¡Evento Completado!");
             BossBar.Color color = BossBar.Color.valueOf(config.getString(key + ".bossbar.color", "GREEN"));
             BossBar.Overlay style = BossBar.Overlay.valueOf(config.getString(key + ".bossbar.style", "NOTCHED_6"));
 
             // Crear evento
             MilestoneEvent event = new MilestoneEvent(
                     key, active, start, end, type, craftingItem, goal, milestones,
-                    bossBarTitle, color, style
+                    bossBarTitle, bossBarFinalTitle, color, style
             );
 
             events.put(key, event);
