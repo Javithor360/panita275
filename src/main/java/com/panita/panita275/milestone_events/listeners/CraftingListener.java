@@ -2,6 +2,7 @@ package com.panita.panita275.milestone_events.listeners;
 
 import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.milestone_events.model.EventType;
+import com.panita.panita275.milestone_events.util.CraftingUtils;
 import com.panita.panita275.milestone_events.util.EventProgressManager;
 import com.panita.panita275.milestone_events.util.MilestoneEventManager;
 import org.bukkit.entity.Player;
@@ -14,22 +15,25 @@ public class CraftingListener implements Listener {
     public void onCraft(CraftItemEvent event) {
         MilestoneEventManager.getActiveEvent().ifPresent(e -> {
             if (e.getType() != EventType.CRAFTING) return;
-            if (event.getCurrentItem() == null) return;
+            if (event.getRecipe() == null || event.getRecipe().getResult() == null) return;
 
-            String itemName = event.getCurrentItem().getType().toString().toLowerCase();
-
+            String craftedType = event.getRecipe().getResult().getType().toString().toLowerCase();
             String configItem = e.getCraftingItem().toLowerCase();
+
+            // remove "minecraft:" prefix if present
             if (configItem.startsWith("minecraft:")) {
                 configItem = configItem.substring("minecraft:".length());
             }
 
-            if (!itemName.equalsIgnoreCase(configItem)) return;
+            if (!craftedType.equalsIgnoreCase(configItem)) return;
 
             if (event.getWhoClicked() instanceof Player player) {
-                int craftedAmount = event.getCurrentItem().getAmount();
-                Messenger.prefixedBroadcast("Items crafted: " + craftedAmount + " x " + itemName + " by " + player.getName());
-                EventProgressManager.addProgress(e.getName(), player.getName(), craftedAmount, e);
-                e.updateBossBar();
+                // Call CraftingUtils to get the amount crafted
+                int amount = CraftingUtils.getCraftedAmount(event);
+                if (amount > 0) {
+                    EventProgressManager.addProgress(e.getName(), player.getName(), amount, e);
+                    e.updateBossBar();
+                }
             }
         });
     }
