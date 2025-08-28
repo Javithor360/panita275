@@ -1,0 +1,52 @@
+# Configuration file for milestone events
+# Comes with an example event pre-configured for demonstration purposes
+
+# Define multiple events here, each with a unique identifier
+event1:
+  active: false
+  startDate: "2025-08-28T00:00:00"
+  endDate: "2025-08-29T23:59:59"
+  # Available types:
+    # - CRAFTING - Players contribute by crafting a specific item
+  type: CRAFTING
+  # Only used if type is CRAFTING
+  # Use Minecraft namespace for items (e.g. minecraft:diamond, minecraft:iron_ingot, minecraft:ender_eye)
+  craftingItem: "minecraft:ender_eye"
+  goal: 100
+  # Milestones are optional but recommended to keep players engaged
+  milestones:
+    # Higher milestone number must be equal to the total number of milestones
+    # Is recommended to sort them in ascending order
+    # The amount must be lower than the goal
+    1:
+      amount: 25
+      message: "Se ha desbloqueado el siguiente hito del evento, mucha suerte!"
+      commandExecute:
+        - "say Primer milestone alcanzado. Todos reciben Haste II"
+        - "effect give @a minecraft:haste 60 1 true"
+    2:
+      amount: 50
+      message: "El esfuerzo de todos ha valido la pena, ¡se ha desbloqueado otro hito!"
+      commandExecute:
+        - "say Segundo milestone alcanzado! Todos reciben Speed II y una manzana dorada"
+        - "effect give @a minecraft:speed 60 1 true"
+        - "give @a minecraft:golden_apple 1"
+    3:
+      amount: 75
+      message: "Estamos cerca del final, ¡un último esfuerzo!"
+      commandExecute:
+        - "say Tercer milestone alcanzado!"
+        - "say ENHORABUENA A TODOS"
+  bossbar:
+    # Available Placeholders:
+    # - %current_progress% - current progress of the event
+    # - %current_milestone% - current milestone number
+    # - %next_milestone% - next milestone amount required
+    # - %milestone_count% - total number of milestones
+    # - %total_amount% - total amount required to complete the event
+    # - %timer% - time left in the event (format: HH:MM:SS)
+    title: "&6Invasión del End &dNivel %current_milestone% &8- &e%current_progress%&8/&a%next_milestone% &f(%timer%)"
+    # Available colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+    color: PURPLE
+    # Available styles: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20
+    style: NOTCHED_6
