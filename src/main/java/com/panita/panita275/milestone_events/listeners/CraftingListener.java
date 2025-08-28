@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.CraftItemEvent;
 public class CraftingListener implements Listener {
     @EventHandler
     public void onCraft(CraftItemEvent event) {
-        MilestoneEventManager.getActiveEvent().ifPresent(e -> {
+        MilestoneEventManager.getActiveEvents().forEach(e -> {
             if (e.getType() != EventType.CRAFTING) return;
             if (event.getRecipe() == null || event.getRecipe().getResult() == null) return;
 

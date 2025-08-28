@@ -11,14 +11,12 @@ public class BossbarSetter implements Listener {
     // Add players to the boss bar when they join
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        MilestoneEventManager.getActiveEvent().ifPresent(e -> {
-            e.updateBossBar(event.getPlayer());
-        });
+        MilestoneEventManager.getActiveEvents().forEach(e -> e.updateBossBar(event.getPlayer()));
     }
 
     // Remove players from the boss bar when they leave
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        MilestoneEventManager.getActiveEvent().ifPresent(e -> e.hideBossBar(event.getPlayer()));
+        MilestoneEventManager.getActiveEvents().forEach(e -> e.hideBossBar(event.getPlayer()));
     }
 }

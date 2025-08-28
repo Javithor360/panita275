@@ -67,8 +67,8 @@ public class MilestoneEventManager {
     }
 
 
-    public static Optional<MilestoneEvent> getActiveEvent() {
-        return events.values().stream().filter(MilestoneEvent::isActive).findFirst();
+    public static List<MilestoneEvent> getActiveEvents() {
+        return events.values().stream().filter(MilestoneEvent::isActive).toList();
     }
 
     public static Map<String, MilestoneEvent> getEvents() {
