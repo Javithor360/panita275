@@ -40,10 +40,12 @@ public class ItemSave implements AdvancedCommand {
             return;
         }
 
-        if (CustomItemManager.saveItem(itemName, itemInHand)) {
-            Messenger.prefixedSend(player, "&aItem &e" + itemName + " &asaved successfully.");
-        } else {
-            Messenger.prefixedSend(player, "&cAn error occurred while saving the item.");
+        CustomItemManager.SaveItemResult result = CustomItemManager.saveItem(itemName, itemInHand);
+
+        switch (result) {
+            case SUCCESS -> Messenger.prefixedSend(player, "&aItem &e" + itemName + " &asaved successfully.");
+            case DUPLICATE_NAME -> Messenger.prefixedSend(player, "&cAn item with the name &e" + itemName + " &calready exists.");
+            case ERROR -> Messenger.prefixedSend(player, "&cAn unexpected error occurred while saving the item.");
         }
     }
 }
