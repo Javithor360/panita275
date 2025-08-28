@@ -24,18 +24,17 @@ public class MilestoneEventsModule implements PluginModule {
         MilestoneEventManager.loadEvents(plugin);
         EventProgressManager.init(plugin);
 
-        // If there's an active event, add all online players to the boss bar
-        MilestoneEventManager.getActiveEvent().ifPresent(event -> {
-            event.getBossBar().removeAll();
-            plugin.getServer().getOnlinePlayers().forEach(p -> event.getBossBar().addPlayer(p));
+        MilestoneEventManager.getEvents().values().forEach(event -> {
+            if (event.isActive()) {
+                event.updateBossBar();
+            }
         });
     }
 
     @Override
     public void onDisable(JavaPlugin plugin) {
-        MilestoneEventManager.getEvents().values().forEach(evento -> {
-            evento.getBossBar().setVisible(false);
-            evento.getBossBar().removeAll();
+        MilestoneEventManager.getEvents().values().forEach(event -> {
+            plugin.getServer().getOnlinePlayers().forEach(event::hideBossBar);
         });
     }
 

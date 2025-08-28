@@ -3,8 +3,7 @@ package com.panita.panita275.milestone_events.util;
 import com.panita.panita275.milestone_events.model.EventType;
 import com.panita.panita275.milestone_events.model.Milestone;
 import com.panita.panita275.milestone_events.model.MilestoneEvent;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
+import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -53,8 +52,8 @@ public class MilestoneEventManager {
 
             // BossBar
             String bossBarTitle = config.getString(key + ".bossbar.title", "Evento: %current_progress% / %next_milestone%");
-            BarColor color = BarColor.valueOf(config.getString(key + ".bossbar.color", "GREEN"));
-            BarStyle style = BarStyle.valueOf(config.getString(key + ".bossbar.style", "SEGMENTED_10"));
+            BossBar.Color color = BossBar.Color.valueOf(config.getString(key + ".bossbar.color", "GREEN"));
+            BossBar.Overlay style = BossBar.Overlay.valueOf(config.getString(key + ".bossbar.style", "NOTCHED_6"));
 
             // Crear evento
             MilestoneEvent event = new MilestoneEvent(
@@ -62,7 +61,6 @@ public class MilestoneEventManager {
                     bossBarTitle, color, style
             );
 
-            event.updateBossBar();
             events.put(key, event);
         }
     }

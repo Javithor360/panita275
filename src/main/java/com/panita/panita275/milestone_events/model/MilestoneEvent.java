@@ -3,9 +3,8 @@ package com.panita.panita275.milestone_events.model;
 import com.panita.panita275.Panitacraft;
 import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.milestone_events.util.EventProgressManager;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
+import net.kyori.adventure.bossbar.BossBar;
+import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -19,15 +18,20 @@ public class MilestoneEvent {
     private final String craftingItem; // Exclusive to CRAFTING type
     private final long goal;
     private final Map<Integer, Milestone> milestones; // id -> Milestone
-    private final BossBar bossBar;
     private final String bossBarTitle;
+    private final BossBar.Color bossBarColor;
+    private final BossBar.Overlay bossBarStyle;
     private final LocalDateTime start;
     private final LocalDateTime end;
+
+    // helpers
+    private String currentTitle;
+    private float currentProgress;
 
     public MilestoneEvent(String name, boolean active, LocalDateTime start, LocalDateTime end,
                           EventType type, String craftingItem, long goal,
                           Map<Integer, Milestone> milestones,
-                          String bossBarTitle, BarColor color, BarStyle style) {
+                          String bossBarTitle, BossBar.Color bossBarColor, BossBar.Overlay bossBarStyle) {
         this.name = name;
         this.active = active;
         this.start = start;
@@ -37,42 +41,41 @@ public class MilestoneEvent {
         this.goal = goal;
         this.milestones = milestones;
         this.bossBarTitle = bossBarTitle;
-        this.bossBar = Panitacraft.getInstance().getServer().createBossBar(bossBarTitle, color, style);
-    }
-
-    public Map<Integer, Milestone> getMilestones() {
-        return milestones;
-    }
-
-    public EventType getType() {
-        return type;
-    }
-
-    public String getCraftingItem() {
-        return craftingItem;
+        this.bossBarColor = bossBarColor;
+        this.bossBarStyle = bossBarStyle;
     }
 
     /** Updates the boss bar progress and title based on current event progress. */
     public void updateBossBar() {
+        handleBossBardUpdate();
+        Panitacraft.getInstance().getServer().getOnlinePlayers().forEach(player -> {
+            Messenger.showBossBar(player, name, currentTitle, bossBarColor, bossBarStyle, currentProgress);
+        });
+    }
+
+    public void updateBossBar(Player player) {
+        handleBossBardUpdate();
+        Messenger.showBossBar(player, name, currentTitle, bossBarColor, bossBarStyle, currentProgress);
+    }
+
+    private void handleBossBardUpdate() {
         if (!isActive()) return;
 
         int current = EventProgressManager.getProgress(name);
 
-        // Nearest milestone
         Milestone next = milestones.values().stream()
                 .filter(m -> current < m.getAmount())
                 .min(Comparator.comparingLong(Milestone::getAmount))
                 .orElse(null);
         long nextAmount = next != null ? next.getAmount() : goal;
 
-        String title = bossBarTitle
+        currentTitle = bossBarTitle
                 .replace("%current_progress%", String.valueOf(current))
                 .replace("%next_milestone%", String.valueOf(nextAmount))
                 .replace("%milestone_count%", String.valueOf(milestones.size()))
                 .replace("%total_amount%", String.valueOf(goal));
 
-        bossBar.setTitle(title);
-        bossBar.setProgress(Math.min((double) current / goal, 1.0));
+        currentProgress = Math.min((float) current / goal, 1.0f);
     }
 
     /**
@@ -97,8 +100,24 @@ public class MilestoneEvent {
         }
     }
 
-    public BossBar getBossBar() {
-        return bossBar;
+    /**
+     * Hides the boss bar for a specific player.
+     * @param player the player to hide the boss bar from
+     */
+    public void hideBossBar(Player player) {
+        Messenger.hideBossBar(player, name);
+    }
+
+    public Map<Integer, Milestone> getMilestones() {
+        return milestones;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public String getCraftingItem() {
+        return craftingItem;
     }
 
     public String getName() {

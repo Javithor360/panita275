@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +20,8 @@ public class Messenger {
     private static BukkitAudiences audiences;
 
     // Bossbar map to track active boss bars per player to handle updates/removals
-    private static final ConcurrentHashMap<UUID, BossBar> activeBars = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<UUID, Map<String, BossBar>> activeBars = new ConcurrentHashMap<>();
+
 
     /**
      * Initializes the Messenger class with the BukkitAudiences instance.
@@ -209,24 +211,34 @@ public class Messenger {
      * @param overlay The overlay style of the boss bar.
      * @param progress The progress of the boss bar (0.0 to 1.0).
      */
-    public static void showBossBar(Player player, String rawMsg, BossBar.Color color, BossBar.Overlay overlay, float progress) {
+    public static void showBossBar(Player player, String id, String rawMsg, BossBar.Color color, BossBar.Overlay overlay, float progress) {
         String parsed = applyPlaceholders(player, rawMsg);
         Component title = mini(parsed);
 
-        BossBar bar = activeBars.getOrDefault(player.getUniqueId(), BossBar.bossBar(title, progress, color, overlay));
+        Map<String, BossBar> bars = activeBars.computeIfAbsent(player.getUniqueId(), k -> new ConcurrentHashMap<>());
+        BossBar bar = bars.getOrDefault(id, BossBar.bossBar(title, progress, color, overlay));
         bar.name(title);
         bar.color(color);
         bar.overlay(overlay);
         bar.progress(progress);
 
         audiences.player(player).showBossBar(bar);
-        activeBars.put(player.getUniqueId(), bar);
+        bars.put(id, bar);
     }
 
-    public static void hideBossBar(Player player) {
-        BossBar bar = activeBars.remove(player.getUniqueId());
-        if (bar != null) {
-            audiences.player(player).hideBossBar(bar);
+    /**
+     * Hides and removes a boss bar from a player.
+     * @param player The player to hide the boss bar from.
+     * @param id The identifier of the boss bar to hide.
+     */
+    public static void hideBossBar(Player player, String id) {
+        Map<String, BossBar> bars = activeBars.get(player.getUniqueId());
+        if (bars != null) {
+            BossBar bar = bars.remove(id);
+            if (bar != null) {
+                audiences.player(player).hideBossBar(bar);
+            }
+            if (bars.isEmpty()) activeBars.remove(player.getUniqueId());
         }
     }
 

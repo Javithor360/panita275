@@ -1,6 +1,5 @@
 package com.panita.panita275.milestone_events.listeners;
 
-import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.milestone_events.model.EventType;
 import com.panita.panita275.milestone_events.util.CraftingUtils;
 import com.panita.panita275.milestone_events.util.EventProgressManager;
