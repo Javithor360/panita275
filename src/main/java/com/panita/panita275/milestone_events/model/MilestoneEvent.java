@@ -8,8 +8,10 @@ import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MilestoneEvent {
     private final String name;
@@ -24,6 +26,7 @@ public class MilestoneEvent {
     private final BossBar.Overlay bossBarStyle;
     private final LocalDateTime start;
     private final LocalDateTime end;
+    private final boolean bossBarEnabled;
 
     // helpers
     private String currentTitle;
@@ -31,8 +34,8 @@ public class MilestoneEvent {
 
     public MilestoneEvent(String name, boolean active, LocalDateTime start, LocalDateTime end,
                           EventType type, String craftingItem, long goal,
-                          Map<Integer, Milestone> milestones,
-                          String bossBarTitle, String bossBarFinalTitle, BossBar.Color bossBarColor, BossBar.Overlay bossBarStyle) {
+                          Map<Integer, Milestone> milestones, String bossBarTitle,
+                          String bossBarFinalTitle, BossBar.Color bossBarColor, BossBar.Overlay bossBarStyle, boolean bossBarEnabled) {
         this.name = name;
         this.active = active;
         this.start = start;
@@ -45,20 +48,25 @@ public class MilestoneEvent {
         this.bossBarFinalTitle = bossBarFinalTitle;
         this.bossBarColor = bossBarColor;
         this.bossBarStyle = bossBarStyle;
+        this.bossBarEnabled = bossBarEnabled;
     }
 
     /**
      * Updates the boss bar progress and title based on current event progress.
      */
     public void updateBossBar() {
+        if (!bossBarEnabled) return;
         handleBossBardUpdate();
+
         Panitacraft.getInstance().getServer().getOnlinePlayers().forEach(player -> {
             Messenger.showBossBar(player, name, currentTitle, bossBarColor, bossBarStyle, currentProgress);
         });
     }
 
     public void updateBossBar(Player player) {
+        if (!bossBarEnabled) return;
         handleBossBardUpdate();
+
         Messenger.showBossBar(player, name, currentTitle, bossBarColor, bossBarStyle, currentProgress);
     }
 
@@ -132,6 +140,7 @@ public class MilestoneEvent {
 
     /**
      * Calculates the progress for the boss bar, considering milestones.
+     *
      * @param current the current progress amount
      * @return the progress ratio (0.0 to 1.0)
      */
@@ -180,6 +189,97 @@ public class MilestoneEvent {
      */
     public void hideBossBar(Player player) {
         Messenger.hideBossBar(player, name);
+    }
+
+    /**
+     * Gets full information about the event, including current progress, milestones, and time remaining.
+     *
+     * @return an EventFullDetails object containing all relevant information
+     */
+    public EventFullDetails getFullInfo() {
+        int currentProgress = EventProgressManager.getProgress(name);
+
+        // Milestones as a string "25 -> 50 -> 100"
+        String milestonesInfo = milestones.values().stream()
+                .map(m -> String.valueOf(m.getAmount()))
+                .sorted((a, b) -> Long.compare(Long.parseLong(a), Long.parseLong(b)))
+                .collect(Collectors.joining(" -> "));
+
+        // Progress to next milestone
+        List<Long> sortedMilestones = milestones.values().stream()
+                .map(Milestone::getAmount)
+                .sorted()
+                .toList();
+
+        long prev = 0;
+        long next = goal;
+
+        for (long m : sortedMilestones) {
+            if (currentProgress < m) {
+                next = m;
+                break;
+            }
+            prev = m;
+        }
+
+        float progressRatio = Math.min((float) (currentProgress - prev) / (next - prev), 1.0f);
+
+        // Timer
+        String timeRemaining;
+        LocalDateTime now = LocalDateTime.now();
+        if (!active) timeRemaining = "Inactive Event";
+        else if (now.isAfter(end)) timeRemaining = "Event Ended";
+        else {
+            long seconds = java.time.Duration.between(now, end).getSeconds();
+            long days = seconds / 86400;
+            long hours = (seconds % 86400) / 3600;
+            long minutes = (seconds % 3600) / 60;
+            long secs = seconds % 60;
+            StringBuilder sb = new StringBuilder();
+            if (days > 0) sb.append(days).append("d ");
+            if (hours > 0 || days > 0) sb.append(hours).append("h ");
+            if (minutes > 0 || hours > 0 || days > 0) sb.append(minutes).append("m ");
+            sb.append(secs).append("s");
+            timeRemaining = sb.toString();
+        }
+
+        return new EventFullDetails(
+                name,
+                type,
+                active,
+                currentProgress,
+                progressRatio,
+                milestonesInfo,
+                prev,
+                next,
+                goal,
+                timeRemaining,
+                start,
+                end,
+                type == EventType.CRAFTING ? craftingItem : null
+        );
+    }
+
+    /**
+     * Retrieves the top players based on their contribution to this event.
+     *
+     * @param limit the maximum number of top players to return
+     * @return a map of player names to their contribution amounts, sorted in descending order
+     */
+    public Map<String, Integer> getTopPlayers(int limit) {
+        Map<String, Integer> progressMap = EventProgressManager.getPlayerProgress(name);
+
+        if (progressMap.isEmpty()) return Map.of();
+
+        return progressMap.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .limit(limit)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                ));
     }
 
     public Map<Integer, Milestone> getMilestones() {
