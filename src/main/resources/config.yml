@@ -25,3 +25,8 @@ quality-of-life:
     playSound: true
     soundPublic: "minecraft:entity.player.levelup"
     soundPrivate: "minecraft:entity.player.levelup"
+troll:
+  enabled: true
+  affectedPlayers:
+    - Griisaia
+    - MrUnused
