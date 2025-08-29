@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
         name = "status",
         description = "Check the current status of the optimization module.",
         syntax = "/panitacraft optimization status",
-        permission = "panitacraft.admin.command.optimization.status"
+        permission = "panitacraft.command.optimization.status"
 )
 public class StatusCommand implements AdvancedCommand {
     @Override

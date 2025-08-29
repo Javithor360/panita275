@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
         name = "teleport",
         description = "Teleport to a saved site.",
         syntax = "/pc coordinates teleport <site_name> [player]",
+        permission = "panitacraft.command.coordinates.teleport",
         playerOnly = false
 )
 public class CoordinatesTeleport implements AdvancedCommand, TabSuggestingCommand {

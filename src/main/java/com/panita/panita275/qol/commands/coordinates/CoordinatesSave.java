@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
         name = "save",
         description = "Save your current location as a named site.",
         syntax = "/pc coordinates save <site_name>",
+        permission = "panitacraft.command.coordinates.save",
         playerOnly = true
 )
 public class CoordinatesSave implements AdvancedCommand {

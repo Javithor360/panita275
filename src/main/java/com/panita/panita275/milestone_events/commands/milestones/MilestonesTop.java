@@ -19,6 +19,7 @@ import java.util.Optional;
         name = "top",
         description = "View top contributing players for a milestone event",
         syntax = "/pc milestones top <event_name> [player_name]",
+        permission = "panitacraft.command.milestones.top",
         playerOnly = false
 )
 public class MilestonesTop implements AdvancedCommand, TabSuggestingCommand {

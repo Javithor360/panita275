@@ -20,6 +20,7 @@ import java.util.Set;
         name = "info",
         description = "View information about milestone events.",
         syntax = "/pc milestones info [event_name]",
+        permission = "panitacraft.command.milestones.info",
         playerOnly = false
 )
 public class MilestonesInfo implements AdvancedCommand, TabSuggestingCommand {

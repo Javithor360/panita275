@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
         name = "remove",
         description = "Removes a saved custom item from the JSON file.",
         syntax = "/panitacraft item remove <item_name>",
+        permission = "panitacraft.command.item.remove",
         playerOnly = false
 )
 public class ItemRemove implements AdvancedCommand, TabSuggestingCommand {

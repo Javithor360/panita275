@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
         name = "save",
         description = "Save the item in your hand into the custom item collection.",
         syntax = "/panitacraft item save <item_name>",
+        permission = "panitacraft.command.item.save",
         playerOnly = true
 )
 public class ItemSave implements AdvancedCommand {

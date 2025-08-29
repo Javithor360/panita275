@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
         name = "get",
         description = "Get a custom saved item by name.",
         syntax = "/panitacraft item get <item_name>",
+        permission = "panitacraft.command.item.get",
         playerOnly = true
 )
 public class ItemGet implements AdvancedCommand, TabSuggestingCommand {

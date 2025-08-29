@@ -14,6 +14,7 @@ import java.util.Set;
         name = "info",
         description = "View information about saved coordinates.",
         syntax = "/pc coordinates info [site_name]",
+        permission = "panitacraft.command.coordinates.info",
         playerOnly = false
 )
 public class CoordinatesInfo implements AdvancedCommand, TabSuggestingCommand {

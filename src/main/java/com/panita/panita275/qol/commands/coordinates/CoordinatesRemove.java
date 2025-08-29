@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
         name = "remove",
         description = "Remove a saved location by name.",
         syntax = "/pc coordinates remove <site_name>",
+        permission = "panitacraft.command.coordinates.remove",
         playerOnly = false
 )
 public class CoordinatesRemove implements AdvancedCommand, TabSuggestingCommand {
