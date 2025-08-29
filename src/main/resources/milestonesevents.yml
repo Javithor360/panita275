@@ -38,6 +38,7 @@ event1:
         - "say Tercer milestone alcanzado!"
         - "say ENHORABUENA A TODOS"
   bossbar:
+    enabled: true
     # Available Placeholders:
     # - %current_progress% - current progress of the event
     # - %current_milestone% - current milestone number
