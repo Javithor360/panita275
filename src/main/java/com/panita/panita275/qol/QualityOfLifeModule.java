@@ -1,7 +1,5 @@
 package com.panita.panita275.qol;
 
-import com.panita.panita275.Panitacraft;
-import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.core.modules.PluginModule;
 import com.panita.panita275.qol.util.CoordinatesManager;
 import com.panita.panita275.qol.util.CustomItemManager;

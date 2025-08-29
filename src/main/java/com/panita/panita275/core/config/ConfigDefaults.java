@@ -1,5 +1,7 @@
 package com.panita.panita275.core.config;
 
+import java.util.List;
+
 public class ConfigDefaults {
     // --- General ---
     public static final String PREFIX = "<b><gradient:#B87333:#D55555:#B87333>PANITACRAFT</gradient></b> <#393341>»</#393341><reset> ";
@@ -23,4 +25,8 @@ public class ConfigDefaults {
     public static final boolean QOL_SHARECOORDINATES_PLAYSOUND = true;
     public static final String QOL_SHARECOORDINATES_SOUNDPUBLIC = "minecraft:entity.player.levelup";
     public static final String QOL_SHARECOORDINATES_SOUNDPRIVATE = "minecraft:entity.player.levelup";
+
+    // --- Troll Module ---
+    public static final boolean TROLL_ENABLED = true;
+    public static final List<String> TROLL_AFFECTED_PLAYERS = List.of("Griisaia");
 }

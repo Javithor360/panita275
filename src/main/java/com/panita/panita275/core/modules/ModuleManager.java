@@ -48,6 +48,16 @@ public class ModuleManager {
     }
 
     /**
+     * Checks if a module with the given ID is currently active.
+     *
+     * @param id The ID of the module.
+     * @return True if the module is active, false otherwise.
+     */
+    public boolean isModuleActive(String id) {
+        return getModule(id) != null;
+    }
+
+    /**
      * Returns the list of all registered modules, including inactive ones.
      */
     public List<PluginModule> getAllModules() {
