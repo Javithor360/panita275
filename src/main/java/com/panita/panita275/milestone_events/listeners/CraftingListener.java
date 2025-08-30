@@ -38,7 +38,6 @@ public class CraftingListener implements Listener {
                 if (maxAddable <= 0) return;
 
                 EventProgressManager.addProgress(e.getName(), player.getName(), maxAddable, e);
-                e.updateBossBar(player);
             }
         });
     }

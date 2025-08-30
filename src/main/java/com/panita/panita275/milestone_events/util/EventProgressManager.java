@@ -85,6 +85,7 @@ public class EventProgressManager {
         eventProgress.add("milestonesReached", milestonesReached);
         progressData.add(eventName, eventProgress);
         save();
+        event.updateBossBar();
     }
 
     /**
