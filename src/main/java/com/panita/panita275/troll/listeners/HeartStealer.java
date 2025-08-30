@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -49,13 +50,16 @@ public class HeartStealer implements Listener {
         event.setDamage(0);
 
         // Reduce 1 heart (2 HP) from max health
-        double maxHealth = Objects.requireNonNull(target.getAttribute(Attribute.MAX_HEALTH)).getValue();
-        double newMaxHealth = Math.max(2.0, maxHealth - 2.0); // Minimum 1 heart (2 HP)
-        target.getAttribute(Attribute.MAX_HEALTH).setBaseValue(newMaxHealth);
+        AttributeInstance attr = target.getAttribute(Attribute.MAX_HEALTH);
+        if (attr == null) return;
+
+        double baseHealth = attr.getBaseValue();
+        double newBaseHealth = Math.max(2.0, baseHealth - 2.0);
+        attr.setBaseValue(newBaseHealth);
 
         // Adjust current health if it exceeds new max health
-        if (target.getHealth() > newMaxHealth) {
-            target.setHealth(newMaxHealth);
+        if (target.getHealth() > newBaseHealth) {
+            target.setHealth(newBaseHealth);
         }
 
         double targetHealth = target.getHealth();
