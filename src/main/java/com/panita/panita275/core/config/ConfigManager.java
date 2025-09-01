@@ -30,6 +30,10 @@ public class ConfigManager {
         return config.getInt(path, def);
     }
 
+    public double getDouble(String path, double def) {
+        return config.getDouble(path, def);
+    }
+
     public String getString(String path, String def) {
         return config.getString(path, def);
     }
@@ -64,6 +68,12 @@ public class ConfigManager {
     }
 
     public void updateInt(String path, int value, BiConsumer<String, Integer> liveUpdate) {
+        config.set(path, value);
+        plugin.saveConfig();
+        if (liveUpdate != null) liveUpdate.accept(path, value);
+    }
+
+    public void updateDouble(String path, double value, BiConsumer<String, Double> liveUpdate) {
         config.set(path, value);
         plugin.saveConfig();
         if (liveUpdate != null) liveUpdate.accept(path, value);

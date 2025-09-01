@@ -100,6 +100,11 @@ public class ModuleManager {
         enableModule(m);
     }
 
+    /**
+     * Enables a specific plugin module.
+     *
+     * @param module The module to enable.
+     */
     private void enableModule(PluginModule module) {
         // Enable the module
         plugin.getLogger().info("[Module] Enabling " + module.id());
@@ -108,31 +113,63 @@ public class ModuleManager {
         cmdRegistry.registerAll(module.commandPackage());
         listenerRegistry.registerAll(module.listenerPackage());
         module.onEnable(plugin);
+        module.setEnabled(true);
 
         // Add to active modules list
         active.add(module);
     }
 
     /**
-     * Disables all registered plugin modules.
+     * Disables a specific plugin module.
+     *
+     * @param module The module to disable.
      */
-    public void disableAll() {
-        for (PluginModule m : active) {
-            try { m.onDisable(plugin); }
-            catch (Exception ignored) {}
-        }
-        active.clear();
+    public void disableModule(PluginModule module) {
+        if (!active.contains(module)) return;
+
+        // Unregister listeners
+        listenerRegistry.unregisterAll(module.listenerPackage());
+
+        module.onDisable(plugin);
+        module.setEnabled(false);
+        active.remove(module);
+
+        plugin.getLogger().info("[Module] Disabled " + module.id());
     }
 
     /**
-     * Registers commands and listeners for a given module.
-     * If the module is not already active, it will be added to the active list.
+     * Reloads a specific module based on its configuration setting.
+     * If the module is enabled in the config but not currently active, it will be enabled.
+     * If the module is disabled in the config but currently active, it will be disabled.
+     * If the module is already active and enabled in the config, it will be reloaded.
      *
-     * @param module The module whose commands and listeners are to be registered.
+     * @param module The module to reload.
      */
-    public void registerCommandsAndListeners(PluginModule module) {
-        cmdRegistry.registerAll(module.commandPackage());
-        listenerRegistry.registerAll(module.listenerPackage());
-        if (!active.contains(module)) active.add(module);
+    public void reloadModule(PluginModule module) {
+        boolean enabledInConfig = Panitacraft.getConfigManager().getBoolean(module.id() + ".enabled", true);
+
+        // Plugin enabled in config file but not in PluginModule instance
+        if (enabledInConfig && !module.isEnabled()) {
+            enableModule(module);
+        // Plugin disabled in config file but enabled in PluginModule instance
+        } else if (!enabledInConfig && module.isEnabled()) {
+            disableModule(module);
+        // Plugin enabled in config and already enabled, just reload
+        } else if (enabledInConfig) {
+            module.reload(plugin);
+        }
+    }
+
+    /**
+     * Disables all registered plugin modules.
+     */
+    public void disableAll() {
+        for (PluginModule m : new ArrayList<>(active)) {
+            disableModule(m);
+        }
+    }
+
+    public ListenerRegistry getListenerRegistry() {
+        return listenerRegistry;
     }
 }
