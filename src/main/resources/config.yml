@@ -30,3 +30,26 @@ troll:
   affectedPlayers:
     - Griisaia
     - MrUnused
+milestone_events:
+  enabled: true
+end:
+  enabled: false
+  enderpearlDropBuff: 1.0
+  otherMobsDropPearl:
+    enabled: false
+    mobs:
+      - WITHER_SKELETON
+      - BLAZE
+      - GHAST
+      - PIGLIN
+    chance: 0.5 # From 0.0 to 1.0
+    maxAmount: 3
+  pre-event:
+    netherDimension:
+      increaseEndermanSpawn: true
+      endermanSpawnAmount: 0.1 # From 0.0 to 1.0
+    overworldDimension:
+        enderMobSpawn: true
+        poweredEnderMobs: false
+        enderMobSpawnAmount: 0.5 # From 0.0 to 1.0
+    periodicallyRandomAggroEnderman: false
