@@ -16,7 +16,7 @@ import java.util.stream.Stream;
         parent = "panitacraft optimization",
         name = "toggle",
         description = "Toggle optimization features on or off",
-        syntax = "/panitacraft optimization toggle <on|off>",
+        syntax = "/panitacraft optimization toggle [on|off]",
         permission = "panitacraft.command.optimization.toggle"
 )
 public class ToggleCommand implements AdvancedCommand, TabSuggestingCommand {
