@@ -29,4 +29,17 @@ public class ConfigDefaults {
     // --- Troll Module ---
     public static final boolean TROLL_ENABLED = true;
     public static final List<String> TROLL_AFFECTED_PLAYERS = List.of("Griisaia");
+
+    // --- End Module ---
+    public static final boolean END_ENABLED = true;
+    public static final double END_ENDER_PEARL_DROP_BUFF = 3.0f;
+    public static final boolean END_PRE_EVENT_NETHER_DIMENSION_INCREASE_ENDERMAN_SPAWN = true;
+    public static final boolean END_OTHER_MOBS_DROP_PEARLS_ENABLED = true;
+    public static final double END_OTHER_MOBS_DROP_PEARLS_CHANCE = 0.05f;
+    public static final int END_OTHER_MOBS_DROP_PEARLS_MAX_AMOUNT = 1;
+    public static final double END_PRE_EVENT_NETHER_DIMENSION_ENDERMAN_SPAWN_AMOUNT = 0.20f;
+    public static final boolean END_PRE_EVENT_OVERWORLD_DIMENSION_ENDER_MOB_SPAWN = true;
+    public static final boolean END_PRE_EVENT_OVERWORLD_DIMENSION_POWERED_ENDER_MOBS = false;
+    public static final double END_PRE_EVENT_OVERWORLD_DIMENSION_ENDER_MOB_SPAWN_AMOUNT = 0.50f;
+    public static final boolean END_PRE_EVENT_PERIODICALLY_RANDOM_AGGRO_ENDERMAN = false;
 }
