@@ -31,22 +31,7 @@ public class ReloadCommand implements AdvancedCommand {
         // Iterate through all modules and reload their configs
         ModuleManager moduleManager = Panitacraft.getModuleManager();
         for (PluginModule module : moduleManager.getAllModules()) {
-            boolean enabledInConfig = Panitacraft.getConfigManager().getBoolean(module.id() + ".enabled", true);
-
-            if (enabledInConfig && !module.isEnabled()) {
-                // Enable module that was disabled
-                module.setEnabled(true);
-                module.onEnable(plugin);
-                // Register commands and listeners for the module
-                moduleManager.registerCommandsAndListeners(module);
-            } else if (!enabledInConfig && module.isEnabled()) {
-                // Disable module that was enabled
-                module.onDisable(plugin);
-                module.setEnabled(false);
-            } else if (enabledInConfig) {
-                // If module was already enabled, just reload it
-                module.reload(plugin);
-            }
+            moduleManager.reloadModule(module);
         }
 
         Messenger.prefixedSend(sender, "&aConfiguración recargada correctamente.");
