@@ -35,6 +35,7 @@ milestone_events:
 end:
   enabled: false
   enderpearlDropBuff: 1.0
+  skeletonLevitationChance: 0.2
   otherMobsDropPearl:
     enabled: false
     mobs:
@@ -44,12 +45,16 @@ end:
       - PIGLIN
     chance: 0.5 # From 0.0 to 1.0
     maxAmount: 3
+  phantomDrops:
+    enabled: false
+    ghastTearChance: 0.2 # From 0.0 to 1.0
+    maxCoalAmount: 1
+    expDropped: 50
   pre-event:
-    netherDimension:
       increaseEndermanSpawn: true
       endermanSpawnAmount: 0.1 # From 0.0 to 1.0
-    overworldDimension:
-        enderMobSpawn: true
-        poweredEnderMobs: false
-        enderMobSpawnAmount: 0.5 # From 0.0 to 1.0
-    periodicallyRandomAggroEnderman: false
+      enderMobSpawn: true
+      poweredEnderMobs: false
+      enderMobSpawnAmount: 0.5 # From 0.0 to 1.0
+      fireballSpawnBlazeChance: 0.1
+      endermalKillSpawnPhantomChance: 0.75

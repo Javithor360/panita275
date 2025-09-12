@@ -3,30 +3,30 @@ package com.panita.panita275.end.listeners;
 import com.panita.panita275.Panitacraft;
 import com.panita.panita275.core.config.ConfigDefaults;
 import com.panita.panita275.core.util.EntityUtils;
+import com.panita.panita275.end.util.EndermanManager;
+import com.panita.panita275.end.util.EndermanUtil;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Hoglin;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
-public class EndermanNetherSpawn implements Listener {
+public class EndermanSpawn implements Listener {
     @EventHandler
     public void onMobSpawn(CreatureSpawnEvent event) {
         // First check if the feature is enabled in the config
-        if (!Panitacraft.getConfigManager().getBoolean("end.pre-event.netherDimension.increaseEndermanSpawn",
-                ConfigDefaults.END_PRE_EVENT_NETHER_DIMENSION_INCREASE_ENDERMAN_SPAWN)) return;
+        if (!Panitacraft.getConfigManager().getBoolean("end.pre-event.increaseEndermanSpawn",
+                ConfigDefaults.END_PRE_EVENT_INCREASE_ENDERMAN_SPAWN)) return;
 
         // Check if the spawn is happening in the Nether and is a natural spawn
-        if (event.getEntity().getWorld().getEnvironment() != World.Environment.NETHER) return;
+        // if (event.getEntity().getWorld().getEnvironment() != World.Environment.NETHER) return;
         if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.NATURAL) return;
         if (event.getEntityType() == EntityType.ENDERMAN) return;
 
-        double chance = Panitacraft.getConfigManager().getDouble("end.pre-event.netherDimension.endermanSpawnAmount",
-                ConfigDefaults.END_PRE_EVENT_NETHER_DIMENSION_ENDERMAN_SPAWN_AMOUNT);
+        double chance = Panitacraft.getConfigManager().getDouble("end.pre-event.endermanSpawnAmount",
+                ConfigDefaults.END_PRE_EVENT_ENDERMAN_SPAWN_AMOUNT);
 
         // First we check the possibility of Hoglin
         if (event.getEntityType() == EntityType.HOGLIN) {
@@ -40,13 +40,8 @@ public class EndermanNetherSpawn implements Listener {
             hoglin.addPassenger(enderman);
 
             // Make the Enderman aggressive towards the nearest player
-            Player nearestPlayer = EntityUtils.getNearestPlayer(hoglin.getLocation(), 64);
-
-            // If a player is found, set the Enderman's target to that player
-            if (nearestPlayer != null) {
-                enderman.setAggressive(true);
-                enderman.setTarget(nearestPlayer);
-            }
+            EndermanUtil.makeHostile(enderman);
+            EndermanManager.trackEnderman(enderman);
 
             return; // return early since we've already spawned an Enderman
         }
@@ -58,7 +53,11 @@ public class EndermanNetherSpawn implements Listener {
             // Check if there's enough space for an Enderman (3 blocks high)
             if (EntityUtils.isEnoughSpaceY(loc, 3, 0)) {
                 event.setCancelled(true);
-                loc.getWorld().spawnEntity(loc, EntityType.ENDERMAN);
+                Enderman enderman = (Enderman) loc.getWorld().spawnEntity(loc, EntityType.ENDERMAN, CreatureSpawnEvent.SpawnReason.CUSTOM);
+                enderman.setRemoveWhenFarAway(true);
+                EndermanManager.trackEnderman(enderman);
+                EndermanUtil.applyVariant(enderman);
+                EndermanUtil.makeHostile(enderman);
             }
         }
     }

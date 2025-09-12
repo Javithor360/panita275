@@ -1,6 +1,8 @@
 package com.panita.panita275.end;
 
 import com.panita.panita275.core.modules.PluginModule;
+import com.panita.panita275.end.util.EndermanManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class EndModule implements PluginModule {
     private boolean enabled;
@@ -14,6 +16,16 @@ public class EndModule implements PluginModule {
     @Override
     public String basePackage() {
         return packageName;
+    }
+
+    @Override
+    public void onEnable(JavaPlugin plugin) {
+        EndermanManager.startTask(plugin);
+    }
+
+    @Override
+    public void onDisable(JavaPlugin plugin) {
+        EndermanManager.stopTask();
     }
 
     @Override

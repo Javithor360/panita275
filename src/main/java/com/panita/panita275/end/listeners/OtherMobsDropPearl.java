@@ -49,6 +49,7 @@ public class OtherMobsDropPearl implements Listener {
         if (Math.random() < dropChance) {
             int amount = (int) Math.floor(Math.random() * maxAmount) + 1;
             event.getDrops().add(new ItemStack(Material.ENDER_PEARL, amount));
+            event.setDroppedExp(135);
         }
     }
 }

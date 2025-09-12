@@ -43,6 +43,7 @@ public class EndermanDropBuff implements Listener {
 
             if (newAmount > 0) {
                 event.getDrops().add(new ItemStack(Material.ENDER_PEARL, newAmount));
+                event.setDroppedExp(135);
             }
         }
     }
