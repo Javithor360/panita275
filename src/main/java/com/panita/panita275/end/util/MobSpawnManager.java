@@ -102,8 +102,6 @@ public class MobSpawnManager {
         event.setCancelled(true);
         Enderman spawned = (Enderman) enderman.getLocation().getWorld().spawnEntity(enderman.getLocation(), EntityType.ENDERMAN);
 
-        Messenger.broadcast("&dCheck ");
-
         if (random.nextDouble() < hostileChance) {
             EndermanUtil.makeHostile(spawned);
         } else {
