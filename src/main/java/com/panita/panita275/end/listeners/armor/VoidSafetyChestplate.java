@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class VoidSafetyChestplate implements Listener {
     @EventHandler
@@ -20,6 +22,7 @@ public class VoidSafetyChestplate implements Listener {
         if (event.getCause() != EntityDamageEvent.DamageCause.VOID) return;
 
         if (!ArmorUtils.isDragonSlayerChestplate(player.getInventory().getChestplate())) return;
+        if (!ArmorUtils.hasFullDragonSlayerSet(player)) return;
 
         event.setCancelled(true);
 
@@ -57,6 +60,7 @@ public class VoidSafetyChestplate implements Listener {
                 .getString("quality-of-life.totems.soundName", ConfigDefaults.QOL_TOTEMS_SOUNDNAME);
 
         player.teleport(target);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 180 * 20, 0, false, true, true));
         SoundUtils.playGlobal(soundKey, 1.0f, 1.0f);
         Messenger.prefixedPlaceholderBroadcast(player, "&b%player_name% &7estuvo a punto de perderse en el vacío ha sido salvado por el poder de los Cazadragones.");
     }
