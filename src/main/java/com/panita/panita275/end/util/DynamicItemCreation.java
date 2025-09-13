@@ -122,11 +122,9 @@ public class DynamicItemCreation {
         equippableBuilder.assetId(Key.key("panita", "dragonslayer"));
         equippableBuilder.equipSound(SoundEventKeys.ENTITY_ENDER_DRAGON_FLAP);
 
-        TagKey<DamageType> tagFire = TagKey.create(RegistryKey.DAMAGE_TYPE, Key.key("minecraft", "is_fire"));
-        // TagKey<DamageType> tagExplosion = TagKey.create(RegistryKey.DAMAGE_TYPE, Key.key("minecraft", "explosion"));
+        TagKey<DamageType> tagFire = TagKey.create(RegistryKey.DAMAGE_TYPE, Key.key("panitaend", "resists_fire_and_explosions"));
 
         item.setData(DataComponentTypes.MAX_DAMAGE, 2025);
-        // item.setData(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(tagExplosion));
         item.setData(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(tagFire));
         item.setData(DataComponentTypes.EQUIPPABLE, equippableBuilder.build());
 
