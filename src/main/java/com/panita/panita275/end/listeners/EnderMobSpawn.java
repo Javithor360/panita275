@@ -25,7 +25,6 @@ public class EnderMobSpawn implements Listener {
         }
 
         if (dim == World.Environment.NORMAL && !(entity instanceof Enderman)) {
-            if (!(entity instanceof Zombie) || !(entity instanceof Skeleton) || !(entity instanceof Creeper)) return;
             MobSpawnManager.handleEnderMobsInOverworld((LivingEntity) entity, event);
             return;
         }

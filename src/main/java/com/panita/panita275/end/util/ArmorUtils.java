@@ -38,6 +38,15 @@ public class ArmorUtils {
     }
 
     /**
+     * Check if the item is the Dragon Slayer Chestplate.
+     * @param item the item to check
+     * @return true if the item is the Dragon Slayer Chestplate, false otherwise
+     */
+    public static boolean isDragonSlayerChestplate(ItemStack item) {
+        return hasModel(item, CHEST);
+    }
+
+    /**
      * Check if the item is the Dragon Slayer Boots.
      * @param item the item to check
      * @return true if the item is the Dragon Slayer Boots, false otherwise

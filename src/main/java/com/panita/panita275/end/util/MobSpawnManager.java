@@ -6,6 +6,8 @@ import com.panita.panita275.core.config.ConfigDefaults;
 import com.panita.panita275.core.util.EntityUtils;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Random;
 
@@ -67,7 +69,6 @@ public class MobSpawnManager {
 
         if (random.nextDouble() > chance) return;
 
-        entity.remove();
         event.setCancelled(true);
 
         boolean isPowered = Panitacraft.getConfigManager().getBoolean(
@@ -76,10 +77,15 @@ public class MobSpawnManager {
 
         if (entity instanceof Zombie) {
             EnderMobFactory.createCustomZombie(entity.getLocation(), isPowered);
+            entity.remove();
         } else if (entity instanceof Skeleton) {
             EnderMobFactory.createCustomSkeleton(entity.getLocation(), isPowered);
+            entity.remove();
         } else if (entity instanceof Creeper) {
             EnderMobFactory.createCustomCreeper(entity.getLocation(), isPowered);
+            entity.remove();
+        } else {
+            entity.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, PotionEffect.INFINITE_DURATION, 1, false, true, false));
         }
     }
 

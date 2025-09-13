@@ -1,6 +1,5 @@
 package com.panita.panita275.end.listeners.armor;
 
-import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.core.util.SoundUtils;
 import com.panita.panita275.end.util.ArmorUtils;

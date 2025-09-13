@@ -2,7 +2,6 @@ package com.panita.panita275.end.util;
 
 import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.qol.util.CustomItemManager;
-import io.papermc.paper.datacomponent.DataComponentType;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.datacomponent.item.Equippable;
@@ -12,7 +11,6 @@ import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.damage.DamageType;
@@ -22,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
-import java.util.Set;
 
 public class DynamicItemCreation {
     public static void registerIfMissing() {
@@ -42,7 +39,7 @@ public class DynamicItemCreation {
                 "dragonslayer_chestplate",
                 Material.IRON_CHESTPLATE,
                 "<!italic><gradient:#A61AFC:#E43A96>Pechera de Cazadragón</gradient>",
-                List.of("&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
+                List.of("&a✔ Inmunidad contra el Vacío activada", "&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
                 "panita:dragonslayer_chestplate",
                 EquipmentSlot.CHEST,
                 10.0,
