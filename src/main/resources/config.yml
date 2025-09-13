@@ -56,6 +56,7 @@ end:
   pre-event:
     increaseEndermanSpawn: true
     endermanSpawnAmount: 0.1 # From 0.0 to 1.0
+    endermanHostileChance: 0.05
     enderMobSpawn: true
     poweredEnderMobs: false
     enderMobSpawnAmount: 0.5 # From 0.0 to 1.0

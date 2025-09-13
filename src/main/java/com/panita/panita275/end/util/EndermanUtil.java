@@ -47,6 +47,7 @@ public class EndermanUtil {
             skullMeta.setPlayerProfile(profile);
             skull.setItemMeta(skullMeta);
 
+            // Here we could use leather armor colored black method
             ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
             LeatherArmorMeta chestplateMeta = (LeatherArmorMeta) chestplate.getItemMeta();
             chestplateMeta.setColor(Color.BLACK);
@@ -101,6 +102,7 @@ public class EndermanUtil {
         if (nearest != null && nearest.getPlayer().getGameMode() == GameMode.SURVIVAL) {
             enderman.setTarget(nearest);
             enderman.setAggressive(true);
+            enderman.getAttribute(Attribute.FOLLOW_RANGE).setBaseValue(64.0);
         }
     }
 }
