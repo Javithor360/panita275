@@ -1,9 +1,17 @@
 package com.panita.panita275.core.util;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
+
+import java.util.Base64;
+import java.util.UUID;
 
 public class EntityUtils {
     /**
@@ -54,5 +62,23 @@ public class EntityUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * Create a custom player skull item with a specific texture or profile.
+     * @return The custom player skull item.
+     */
+    public static ItemStack createSkull(String profileUrl) {
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+
+        PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID(), null);
+        profile.setProperty(new ProfileProperty("textures",
+                Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"" + profileUrl + "\"}}}").getBytes())
+        ));
+        skullMeta.setPlayerProfile(profile);
+        skull.setItemMeta(skullMeta);
+
+        return skull;
     }
 }

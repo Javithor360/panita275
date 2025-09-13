@@ -55,4 +55,13 @@ public class ConfigDefaults {
     public static final double END_PHANTOM_DROPS_GHAST_TEAR_CHANCE = 0.20f;
     public static final int END_PHANTOM_DROPS_MAX_GHAST_TEAR_AMOUNT = 1;
     public static final int END_PHANTOM_DROPS_MAX_COAL_AMOUNT = 1;
+
+    public static final boolean END_EVENT_ENDER_MOBS_ENABLED = true;
+    public static final double END_EVENT_ENDER_MOB_SPAWN_AMOUNT = 0.2f;
+    public static final double END_EVENT_ENDER_MOB_DROPPED_XP = 35.0f;
+    public static final int END_EVENT_ENDER_MOB_MAX_PEARL_DROP_AMOUNT = 2;
+    public static final boolean END_EVENT_SHULKERS_COLORED = true;
+    public static final boolean END_EVENT_SHULKERS_VARIATIONS = true;
+    public static final boolean END_EVENT_ARMOR_DOUBLE_JUMP = true;
+    public static final boolean END_EVENT_ARMOR_NIGHT_VISION = true;
 }
