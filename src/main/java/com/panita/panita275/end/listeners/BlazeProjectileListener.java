@@ -21,7 +21,7 @@ public class BlazeProjectileListener implements Listener {
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
-        if (!Panitacraft.getConfigManager().getBoolean("end.pre-event.poweredEnderMobs", ConfigDefaults.END_PRE_EVENT_POWERED_ENDER_MOBS)) return;
+        if (!Panitacraft.getConfigManager().getBoolean("end.blazeFireball.spawnEscort", ConfigDefaults.END_BLAZE_FIREBALL_SPAWN_ESCORT)) return;
 
         Projectile proj = event.getEntity();
         if (!(proj instanceof Fireball || proj instanceof SmallFireball)) return;
@@ -32,7 +32,7 @@ public class BlazeProjectileListener implements Listener {
         World world = loc.getWorld();
         if (world == null || !world.getEnvironment().equals(World.Environment.NETHER)) return;
 
-        double chance = Panitacraft.getConfigManager().getDouble("end.pre-event.fireballSpawnBlazeChance", 0.1);
+        double chance = Panitacraft.getConfigManager().getDouble("end.pre-event.fireballSpawnBlazeChance", ConfigDefaults.END_BLAZE_FIREBALL_ESCORT_CHANCE);
         if (chance > 0 && random.nextDouble() > chance) return;
 
         Phantom phantom = (Phantom) world.spawnEntity(loc, EntityType.PHANTOM);

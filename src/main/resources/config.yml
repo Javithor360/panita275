@@ -50,11 +50,13 @@ end:
     ghastTearChance: 0.2 # From 0.0 to 1.0
     maxCoalAmount: 1
     expDropped: 50
+  blazeFireball:
+    spawnEscort: true
+    escortChance: 0.1
   pre-event:
       increaseEndermanSpawn: true
       endermanSpawnAmount: 0.1 # From 0.0 to 1.0
       enderMobSpawn: true
       poweredEnderMobs: false
       enderMobSpawnAmount: 0.5 # From 0.0 to 1.0
-      fireballSpawnBlazeChance: 0.1
-      endermalKillSpawnPhantomChance: 0.75
+      endermanKillSpawnPhantomChance: 0.75

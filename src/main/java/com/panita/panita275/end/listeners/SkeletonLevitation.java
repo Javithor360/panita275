@@ -26,8 +26,7 @@ public class SkeletonLevitation implements Listener {
         if (!(projectile.getShooter() instanceof Skeleton)) return;
 
         double chance = Panitacraft.getConfigManager().getDouble(
-                "end.skeletonLevitationChance", 0.2
-        );
+                "end.skeletonLevitationChance", ConfigDefaults.END_SKELETON_LEVITATION_CHANCE);
 
         if (chance > 0 && random.nextDouble() <= chance) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 5 * 20, 2, false, true));

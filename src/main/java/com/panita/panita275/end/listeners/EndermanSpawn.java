@@ -3,9 +3,9 @@ package com.panita.panita275.end.listeners;
 import com.panita.panita275.Panitacraft;
 import com.panita.panita275.core.config.ConfigDefaults;
 import com.panita.panita275.core.util.EntityUtils;
-import com.panita.panita275.end.util.EndermanManager;
 import com.panita.panita275.end.util.EndermanUtil;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Hoglin;
@@ -20,13 +20,16 @@ public class EndermanSpawn implements Listener {
         if (!Panitacraft.getConfigManager().getBoolean("end.pre-event.increaseEndermanSpawn",
                 ConfigDefaults.END_PRE_EVENT_INCREASE_ENDERMAN_SPAWN)) return;
 
-        // Check if the spawn is happening in the Nether and is a natural spawn
-        // if (event.getEntity().getWorld().getEnvironment() != World.Environment.NETHER) return;
+        // Check if the spawn isn't happening in The End and is a natural spawn
+        if (event.getEntity().getWorld().getEnvironment() == World.Environment.THE_END) return;
         if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.NATURAL) return;
         if (event.getEntityType() == EntityType.ENDERMAN) return;
 
         double chance = Panitacraft.getConfigManager().getDouble("end.pre-event.endermanSpawnAmount",
                 ConfigDefaults.END_PRE_EVENT_ENDERMAN_SPAWN_AMOUNT);
+
+        double hostileChance = Panitacraft.getConfigManager().getDouble("end.pre-event.endermanHostileChance",
+                ConfigDefaults.END_ENDERMAN_HOSTILE_CHANCE);
 
         // First we check the possibility of Hoglin
         if (event.getEntityType() == EntityType.HOGLIN) {
@@ -40,8 +43,9 @@ public class EndermanSpawn implements Listener {
             hoglin.addPassenger(enderman);
 
             // Make the Enderman aggressive towards the nearest player
-            EndermanUtil.makeHostile(enderman);
-            EndermanManager.trackEnderman(enderman);
+            if (Math.random() < hostileChance) {
+                EndermanUtil.makeHostile(enderman);
+            }
 
             return; // return early since we've already spawned an Enderman
         }
@@ -55,9 +59,11 @@ public class EndermanSpawn implements Listener {
                 event.setCancelled(true);
                 Enderman enderman = (Enderman) loc.getWorld().spawnEntity(loc, EntityType.ENDERMAN, CreatureSpawnEvent.SpawnReason.CUSTOM);
                 enderman.setRemoveWhenFarAway(true);
-                EndermanManager.trackEnderman(enderman);
                 EndermanUtil.applyVariant(enderman);
-                EndermanUtil.makeHostile(enderman);
+
+                if (Math.random() < hostileChance) {
+                    EndermanUtil.makeHostile(enderman);
+                }
             }
         }
     }

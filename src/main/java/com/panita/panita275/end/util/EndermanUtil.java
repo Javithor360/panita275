@@ -2,8 +2,6 @@ package com.panita.panita275.end.util;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import com.panita.panita275.Panitacraft;
 import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.core.util.EntityUtils;
@@ -14,12 +12,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.lang.reflect.Field;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -30,7 +26,7 @@ public class EndermanUtil {
         // Variant 1: 30% chance - Enderman 1.5 blocks height
         if (roll < 0.3) {
             enderman.customName(Messenger.mini("&dEnderman.ZIP"));
-            enderman.getAttribute(Attribute.SCALE).setBaseValue(0.4);
+            enderman.getAttribute(Attribute.SCALE).setBaseValue(0.5);
             enderman.setSilent(false);
         }
         // Variant 2: 20% chance - Baby Zombie with Enderman Skin
@@ -89,15 +85,13 @@ public class EndermanUtil {
         // Variant 3: 10% chance - Buffed Enderman Stats
         else if (roll < 0.6) {
             enderman.customName(Messenger.mini("&cEnderman Mamadísimo"));
-            enderman.getAttribute(Attribute.ATTACK_DAMAGE).setBaseValue(14.0);
+            enderman.getAttribute(Attribute.ATTACK_DAMAGE).setBaseValue(12.0);
             enderman.getAttribute(Attribute.FOLLOW_RANGE).setBaseValue(80.0);
-            enderman.getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(0.6);
+            enderman.getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(0.45);
             enderman.getAttribute(Attribute.MAX_HEALTH).setBaseValue(60.0);
             enderman.getAttribute(Attribute.SCALE).setBaseValue(1.5);
             enderman.setHealth(60.0);
             enderman.setSilent(false);
-        } else {
-            enderman.getAttribute(Attribute.ATTACK_DAMAGE).setBaseValue(12.0);
         }
     }
 
@@ -108,7 +102,5 @@ public class EndermanUtil {
             enderman.setTarget(nearest);
             enderman.setAggressive(true);
         }
-
-        EndermanManager.trackEnderman(enderman);
     }
 }

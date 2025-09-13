@@ -15,7 +15,7 @@ public class EndermanDeath implements Listener {
     public void onEndermanDeath(EntityDeathEvent event) {
         if (!Panitacraft.getConfigManager().getBoolean("end.pre-event.enderMobSpawn", ConfigDefaults.END_PRE_EVENT_ENDER_MOB_SPAWN)) return;
 
-        double chance = Panitacraft.getConfigManager().getDouble("end.pre-event.endermalKillSpawnPhantomChance", 0.75);
+        double chance = Panitacraft.getConfigManager().getDouble("end.pre-event.endermanKillSpawnPhantomChance", ConfigDefaults.END_PRE_EVENT_ENDERMAN_KILL_SPAWN_PHANTOM_CHANCE);
 
         if (chance > 0 && Math.random() < chance) {
             if (event.getEntity() instanceof Enderman enderman) {
