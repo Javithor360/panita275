@@ -2,20 +2,27 @@ package com.panita.panita275.end.util;
 
 import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.qol.util.CustomItemManager;
+import io.papermc.paper.datacomponent.DataComponentType;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.DamageResistant;
 import io.papermc.paper.datacomponent.item.Equippable;
+import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.keys.SoundEventKeys;
+import io.papermc.paper.registry.tag.TagKey;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.damage.DamageType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
+import java.util.Set;
 
 public class DynamicItemCreation {
     public static void registerIfMissing() {
@@ -23,7 +30,7 @@ public class DynamicItemCreation {
                 "dragonslayer_helmet",
                 Material.IRON_HELMET,
                 "<!italic><gradient:#A61AFC:#E43A96>Casco de Cazadragón</gradient>",
-                List.of("&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
+                List.of("&c❌ Visión Nocturna desactivada", "&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
                 "panita:dragonslayer_helmet",
                 EquipmentSlot.HEAD,
                 6.0,
@@ -59,7 +66,7 @@ public class DynamicItemCreation {
                 "dragonslayer_boots",
                 Material.IRON_BOOTS,
                 "<!italic><gradient:#A61AFC:#E43A96>Botas de Cazadragón</gradient>",
-                List.of("&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
+                List.of("&c❌ Doble Salto desactivado", "&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
                 "panita:dragonslayer_boots",
                 EquipmentSlot.FEET,
                 6.0,
@@ -114,10 +121,17 @@ public class DynamicItemCreation {
         item.setItemMeta(meta);
 
         // Item Data Components
-        Equippable.Builder builder = item.getData(DataComponentTypes.EQUIPPABLE).toBuilder();
-        builder.assetId(Key.key("panita", "dragonslayer"));
-        builder.equipSound(SoundEventKeys.ENTITY_ENDER_DRAGON_FLAP);
-        item.setData(DataComponentTypes.EQUIPPABLE, builder.build());
+        Equippable.Builder equippableBuilder = item.getData(DataComponentTypes.EQUIPPABLE).toBuilder();
+        equippableBuilder.assetId(Key.key("panita", "dragonslayer"));
+        equippableBuilder.equipSound(SoundEventKeys.ENTITY_ENDER_DRAGON_FLAP);
+
+        TagKey<DamageType> tagFire = TagKey.create(RegistryKey.DAMAGE_TYPE, Key.key("minecraft", "is_fire"));
+        // TagKey<DamageType> tagExplosion = TagKey.create(RegistryKey.DAMAGE_TYPE, Key.key("minecraft", "explosion"));
+
+        item.setData(DataComponentTypes.MAX_DAMAGE, 2025);
+        // item.setData(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(tagExplosion));
+        item.setData(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(tagFire));
+        item.setData(DataComponentTypes.EQUIPPABLE, equippableBuilder.build());
 
         CustomItemManager.saveItem(key, item);
         Messenger.prefixedBroadcast("&dSe ha creado la pieza " + displayName + " para el set Cazadragón.");
