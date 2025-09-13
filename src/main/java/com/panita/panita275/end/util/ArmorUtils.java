@@ -37,6 +37,15 @@ public class ArmorUtils {
         return hasModel(item, HELMET);
     }
 
+    /**
+     * Check if the item is the Dragon Slayer Boots.
+     * @param item the item to check
+     * @return true if the item is the Dragon Slayer Boots, false otherwise
+     */
+    public static boolean isDragonSlayerBoots(ItemStack item) {
+        return hasModel(item, BOOTS);
+    }
+
     private static boolean hasModel(ItemStack item, NamespacedKey modelKey) {
         if (item == null || !item.hasItemMeta()) return false;
         ItemMeta meta = item.getItemMeta();

@@ -9,7 +9,9 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
@@ -22,18 +24,22 @@ public class NightVisionHelmet implements Listener {
 
     @EventHandler
     public void onHelmetClick(PlayerInteractEvent event) {
-        if (!event.hasItem() || !event.getAction().isLeftClick()) return;
+        // First check if the event has an item and if the action is a left click (in air or on block)
+        if (event.getHand() != EquipmentSlot.HAND) return;
+        if (!(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK))
+            return;
 
+        // Then be sure the item is the Dragon Slayer Helmet
         ItemStack item = event.getItem();
+        Player player = event.getPlayer();
         if (item == null) return;
         if (!ArmorUtils.isDragonSlayerHelmet(item)) return;
 
-        UUID playerId = event.getPlayer().getUniqueId();
+        // Also be sure the player is actually holding the helmet in their main hand
+        if (!item.isSimilar(player.getInventory().getItemInMainHand())) return;
 
-        boolean active = false;
-        if (item.getItemMeta().getPersistentDataContainer().has(nightVisionKey, PersistentDataType.BYTE)) {
-            active = item.getItemMeta().getPersistentDataContainer().get(nightVisionKey, PersistentDataType.BYTE) != 0;
-        }
+        boolean active = item.getItemMeta().getPersistentDataContainer()
+                .getOrDefault(nightVisionKey, PersistentDataType.BYTE, (byte) 0) != 0;
 
         boolean activate = !active;
 
@@ -52,7 +58,7 @@ public class NightVisionHelmet implements Listener {
             meta.lore(lore);
         });
 
-        event.getPlayer().updateInventory();
+        player.setCooldown(item, 10 * 20);
         SoundUtils.play(event.getPlayer(), "minecraft:block.note_block.bell", 1, 0);
     }
 

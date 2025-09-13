@@ -1,19 +1,26 @@
 package com.panita.panita275.end.listeners.armor;
 
+import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import com.panita.panita275.core.chat.Messenger;
+import com.panita.panita275.core.util.SoundUtils;
 import com.panita.panita275.end.util.ArmorUtils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInputEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class DoubleJumpListener implements Listener {
+    private final NamespacedKey doubleJumpKey = new NamespacedKey("panita275", "double_jump");
     private final Set<UUID> canDoubleJump = new HashSet<>();
 
     @EventHandler
@@ -24,8 +31,11 @@ public class DoubleJumpListener implements Listener {
         // Check if the player is wearing the full Dragon Slayer armor set
         if (!ArmorUtils.hasFullDragonSlayerSet(player)) return;
 
+        boolean active = player.getInventory().getBoots().getItemMeta().getPersistentDataContainer()
+                .getOrDefault(doubleJumpKey, PersistentDataType.BYTE, (byte) 0) != 0;
+
         // If the player is on the ground, reset their ability to double jump
-        if (player.isOnGround()) {
+        if (active && player.isOnGround()) {
             canDoubleJump.add(id);
             return;
         }
@@ -40,6 +50,46 @@ public class DoubleJumpListener implements Listener {
 
             canDoubleJump.remove(id); // Remove the ability to double jump until they land again
         }
+    }
+
+    @EventHandler
+    public void onBootsClick(PlayerInteractEvent event) {
+        // First check if the event has an item and if the action is a left click (in air or on block)
+        if (event.getHand() != EquipmentSlot.HAND) return;
+        if (!(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK))
+            return;
+
+        // Then be sure the item is the Dragon Slayer Helmet
+        ItemStack item = event.getItem();
+        Player player = event.getPlayer();
+        if (item == null) return;
+        if (!ArmorUtils.isDragonSlayerBoots(item)) return;
+
+        // Also be sure the player is actually holding the helmet in their main hand
+        if (!item.isSimilar(player.getInventory().getItemInMainHand())) return;
+
+        boolean active = item.getItemMeta().getPersistentDataContainer()
+                .getOrDefault(doubleJumpKey, PersistentDataType.BYTE, (byte) 0) != 0;
+
+        boolean activate = !active;
+
+        item.editMeta(meta -> {
+            meta.getPersistentDataContainer().set(doubleJumpKey, PersistentDataType.BYTE, (byte) (activate ? 1 : 0));
+
+            List<Component> lore = meta.lore() != null ? new ArrayList<>(meta.lore()) : new ArrayList<>();
+            Component stateLine = Messenger.mini(activate ? "&a✔ Doble Salto activado" : "&c❌ Doble Salto desactivado");
+
+            if (!lore.isEmpty() && lore.getFirst().toString().contains("Doble Salto")) {
+                lore.set(0, stateLine);
+            } else {
+                lore.addFirst(stateLine);
+            }
+
+            meta.lore(lore);
+        });
+
+        player.setCooldown(item, 10 * 20);
+        SoundUtils.play(event.getPlayer(), "minecraft:block.note_block.bell", 1, 0);
     }
 
     /**
