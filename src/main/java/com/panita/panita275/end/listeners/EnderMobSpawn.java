@@ -2,6 +2,7 @@ package com.panita.panita275.end.listeners;
 
 import com.panita.panita275.end.util.MobSpawnManager;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +31,7 @@ public class EnderMobSpawn implements Listener {
         }
 
         if (dim == World.Environment.THE_END && entity instanceof Enderman enderman) {
+            if (entity.getLocation().getBlock().getBiome() == Biome.SMALL_END_ISLANDS || entity.getLocation().getBlock().getBiome() == Biome.THE_VOID) return;
             MobSpawnManager.handleEnderMobInTheEnd(enderman, event);
         }
 

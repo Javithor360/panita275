@@ -41,7 +41,7 @@ public class DoubleJumpListener implements Listener {
 
         // If the player is in the air and presses jump, perform the double jump
         if (event.getInput().isJump() && canDoubleJump.contains(id)) {
-            Vector velocity = player.getLocation().getDirection().multiply(0.6).setY(1); // Define jump velocity
+            Vector velocity = player.getLocation().getDirection().multiply(0.8).setY(0.6); // Define jump velocity
             player.setVelocity(velocity); // Apply the velocity to the player
 
             player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_FLAP, 1f, 1f);
