@@ -131,7 +131,7 @@ public class DynamicItemCreation {
 
         // Item Data Components
         Equippable.Builder equippableBuilder = item.getData(DataComponentTypes.EQUIPPABLE).toBuilder();
-        equippableBuilder.assetId(Key.key("panita", "dragonslayer"));
+        equippableBuilder.assetId(Key.key("panita", item.getType() == Material.ELYTRA ? "dragonslayer_elytra" : "dragonslayer"));
         equippableBuilder.equipSound(SoundEventKeys.ENTITY_ENDER_DRAGON_FLAP);
 
         TagKey<DamageType> tagFire = TagKey.create(RegistryKey.DAMAGE_TYPE, Key.key("panitaend", "resists_fire_and_explosions"));
