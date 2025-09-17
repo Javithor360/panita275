@@ -10,6 +10,7 @@ public class ArmorUtils {
     private static final NamespacedKey HELMET = NamespacedKey.fromString("panita:dragonslayer_helmet");
     private static final NamespacedKey CHEST = NamespacedKey.fromString("panita:dragonslayer_chestplate");
     private static final NamespacedKey ELYTRA = NamespacedKey.fromString("panita:dragonslayer_elytra");
+    private static final NamespacedKey COLYTRA = NamespacedKey.fromString("panita:dragonslayer_colytra");
     private static final NamespacedKey LEGS = NamespacedKey.fromString("panita:dragonslayer_leggings");
     private static final NamespacedKey BOOTS = NamespacedKey.fromString("panita:dragonslayer_boots");
 
@@ -25,19 +26,7 @@ public class ArmorUtils {
         ItemStack boots = player.getInventory().getBoots();
 
         return hasModel(helmet, HELMET)
-                && (hasModel(chest, CHEST) || hasModel(chest, ELYTRA))
-                && hasModel(legs, LEGS)
-                && hasModel(boots, BOOTS);
-    }
-
-    public static boolean hasDragonSlayerSet(Player player) {
-        ItemStack helmet = player.getInventory().getHelmet();
-        ItemStack chest = player.getInventory().getChestplate();
-        ItemStack legs = player.getInventory().getLeggings();
-        ItemStack boots = player.getInventory().getBoots();
-
-        return hasModel(helmet, HELMET)
-                && (hasModel(chest, CHEST) || hasModel(chest, ELYTRA) || true) // remove true statement later
+                && (hasModel(chest, CHEST) || hasModel(chest, ELYTRA) || hasModel(chest, COLYTRA))
                 && hasModel(legs, LEGS)
                 && hasModel(boots, BOOTS);
     }
@@ -60,8 +49,26 @@ public class ArmorUtils {
         return hasModel(item, CHEST);
     }
 
+    /**
+     * Check if the item is the Dragon Slayer Elytra.
+     * @param item the item to check
+     * @return true if the item is the Dragon Slayer Elytra, false otherwise
+     */
     public static boolean isDragonSlayerElytra(ItemStack item) {
         return hasModel(item, ELYTRA);
+    }
+
+    /**
+     * Check if the item is the Dragon Slayer Colytra.
+     * @param item the item to check
+     * @return true if the item is the Dragon Slayer Colytra, false otherwise
+     */
+    public static boolean isDragonSlayerColytra(ItemStack item) {
+        return hasModel(item, COLYTRA);
+    }
+
+    public static boolean isDragonSlayerChest(ItemStack item) {
+        return isDragonSlayerChestplate(item) || isDragonSlayerColytra(item);
     }
 
     /**
