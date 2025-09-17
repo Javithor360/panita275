@@ -102,7 +102,7 @@ public class EnderMobFactory {
         creeper.customName(Messenger.mini("&dEnder Creeper"));
         creeper.getAttribute(Attribute.MAX_HEALTH).setBaseValue(powered ? 40 : 30);
         creeper.setHealth(powered ? 40 : 30);
-        creeper.setExplosionRadius(powered ? 8 : 4);
+        creeper.setExplosionRadius(powered ? 5 : 4);
         creeper.setPowered(powered);
 
         return creeper;
