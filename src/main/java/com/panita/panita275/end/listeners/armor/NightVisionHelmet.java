@@ -62,23 +62,4 @@ public class NightVisionHelmet implements Listener {
         player.setCooldown(item, 10 * 20);
         SoundUtils.play(event.getPlayer(), "minecraft:block.note_block.bell", 1, 0);
     }
-
-    @EventHandler
-    public void onHelmetEquip(PlayerArmorChangeEvent event) {
-        ItemStack newItem = event.getNewItem();
-        ItemStack oldItem = event.getOldItem();
-        Player player = event.getPlayer();
-
-        if (ArmorUtils.isDragonSlayerHelmet(oldItem)) {
-            player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-        }
-
-        if (ArmorUtils.isDragonSlayerHelmet(newItem) && ArmorUtils.hasDragonSlayerSet(player)) {
-            boolean active = newItem.getItemMeta().getPersistentDataContainer()
-                    .getOrDefault(nightVisionKey, PersistentDataType.BYTE, (byte) 0) != 0;
-            if (active) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, PotionEffect.INFINITE_DURATION, 0, false, false, false));
-            }
-        }
-    }
 }

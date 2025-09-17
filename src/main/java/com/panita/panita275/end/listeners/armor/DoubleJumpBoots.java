@@ -28,7 +28,7 @@ public class DoubleJumpBoots implements Listener {
         UUID id = player.getUniqueId();
 
         // Check if the player is wearing the full Dragon Slayer armor set
-        if (!ArmorUtils.hasDragonSlayerSet(player)) return;
+        if (!ArmorUtils.hasFullDragonSlayerSet(player)) return;
 
         boolean active = player.getInventory().getBoots().getItemMeta().getPersistentDataContainer()
                 .getOrDefault(doubleJumpKey, PersistentDataType.BYTE, (byte) 0) != 0;
