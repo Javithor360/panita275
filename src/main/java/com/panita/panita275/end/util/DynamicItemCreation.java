@@ -48,10 +48,22 @@ public class DynamicItemCreation {
         );
 
         createArmorPieceIfMissing(
+                "dragonslayer_elytra",
+                Material.ELYTRA,
+                "<!italic><gradient:#A61AFC:#E43A96>Elytra de Cazadragón</gradient>",
+                List.of("&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
+                "panita:dragonslayer_elytra",
+                EquipmentSlot.CHEST,
+                5.0,
+                2.0,
+                0.05
+        );
+
+        createArmorPieceIfMissing(
                 "dragonslayer_leggings",
                 Material.IRON_LEGGINGS,
                 "<!italic><gradient:#A61AFC:#E43A96>Pantalones de Cazadragón</gradient>",
-                List.of("&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
+                List.of("&c❌ Velocidad aumentada desactivada", "&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
                 "panita:dragonslayer_leggings",
                 EquipmentSlot.LEGS,
                 8.0,
