@@ -4,6 +4,7 @@ import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.core.commands.identifiers.CommandMeta;
 import com.panita.panita275.core.config.Config;
 import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,12 @@ public class Global {
     public static void load() {
         RAW_PREFIX = Config.raw().getString("prefix", "");
         PREFIX = Messenger.mini(RAW_PREFIX);
+    }
+
+    public static boolean hasPermission(Player player, String permission) {
+        if (permission == null || permission.isEmpty()) return true;
+
+        return player.isOp() || player.hasPermission(permission);
     }
 
     public static double normalize(double value, double min, double max) {
