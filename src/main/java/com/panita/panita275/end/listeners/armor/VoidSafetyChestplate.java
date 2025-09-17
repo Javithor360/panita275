@@ -21,7 +21,7 @@ public class VoidSafetyChestplate implements Listener {
         if (!(event.getEntity() instanceof Player player)) return;
         if (event.getCause() != EntityDamageEvent.DamageCause.VOID) return;
 
-        if (!ArmorUtils.isDragonSlayerChestplate(player.getInventory().getChestplate())) return;
+        if (!ArmorUtils.isDragonSlayerChest(player.getInventory().getChestplate())) return;
         if (!ArmorUtils.hasFullDragonSlayerSet(player)) return;
 
         event.setCancelled(true);

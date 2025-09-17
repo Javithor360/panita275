@@ -63,24 +63,4 @@ public class SpeedLeggings implements Listener {
         player.setCooldown(item, 10 * 20);
         SoundUtils.play(event.getPlayer(), "minecraft:block.note_block.bell", 1, 0);
     }
-
-    @EventHandler
-    public void onLeggingsEquip(PlayerArmorChangeEvent event) {
-        ItemStack newItem = event.getNewItem();
-        ItemStack oldItem = event.getOldItem();
-        Player player = event.getPlayer();
-
-        if (ArmorUtils.isDragonSlayerLeggings(oldItem)) {
-            player.removePotionEffect(PotionEffectType.SPEED);
-        }
-
-        if (ArmorUtils.isDragonSlayerLeggings(newItem) && ArmorUtils.hasDragonSlayerSet(player)) {
-            boolean active = newItem.getItemMeta().getPersistentDataContainer()
-                    .getOrDefault(speedKey, PersistentDataType.BYTE, (byte) 0) != 0;
-
-            if (active) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, PotionEffect.INFINITE_DURATION, 1, false, false, false));
-            }
-        }
-    }
 }
