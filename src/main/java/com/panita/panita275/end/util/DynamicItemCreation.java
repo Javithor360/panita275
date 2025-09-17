@@ -29,6 +29,7 @@ public class DynamicItemCreation {
                 "<!italic><gradient:#A61AFC:#E43A96>Casco de Cazadragón</gradient>",
                 List.of("&c❌ Visión Nocturna desactivada", "&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
                 "panita:dragonslayer_helmet",
+                "dragonslayer",
                 EquipmentSlot.HEAD,
                 6.0,
                 4.0,
@@ -41,6 +42,7 @@ public class DynamicItemCreation {
                 "<!italic><gradient:#A61AFC:#E43A96>Pechera de Cazadragón</gradient>",
                 List.of("&a✔ Inmunidad contra el Vacío activada", "&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
                 "panita:dragonslayer_chestplate",
+                "dragonslayer",
                 EquipmentSlot.CHEST,
                 10.0,
                 4.0,
@@ -53,10 +55,24 @@ public class DynamicItemCreation {
                 "<!italic><gradient:#A61AFC:#E43A96>Elytra de Cazadragón</gradient>",
                 List.of("&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
                 "panita:dragonslayer_elytra",
+                "dragonslayer_elytra",
                 EquipmentSlot.CHEST,
-                5.0,
+                2.0,
                 2.0,
                 0.05
+        );
+
+        createArmorPieceIfMissing(
+                "dragonslayer_colytra",
+                Material.ELYTRA,
+                "<!italic><gradient:#A61AFC:#E43A96>Colytra de Cazadragón</gradient>",
+                List.of("&a✔ Inmunidad contra el Vacío activada", "&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
+                "panita:dragonslayer_colytra",
+                "dragonslayer_colytra",
+                EquipmentSlot.CHEST,
+                12.0,
+                4.0,
+                0.1
         );
 
         createArmorPieceIfMissing(
@@ -65,6 +81,7 @@ public class DynamicItemCreation {
                 "<!italic><gradient:#A61AFC:#E43A96>Pantalones de Cazadragón</gradient>",
                 List.of("&c❌ Velocidad aumentada desactivada", "&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
                 "panita:dragonslayer_leggings",
+                "dragonslayer",
                 EquipmentSlot.LEGS,
                 8.0,
                 4.0,
@@ -77,6 +94,7 @@ public class DynamicItemCreation {
                 "<!italic><gradient:#A61AFC:#E43A96>Botas de Cazadragón</gradient>",
                 List.of("&c❌ Doble Salto desactivado", "&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
                 "panita:dragonslayer_boots",
+                "dragonslayer",
                 EquipmentSlot.FEET,
                 6.0,
                 4.0,
@@ -90,6 +108,7 @@ public class DynamicItemCreation {
             String displayName,
             List<String> lore,
             String itemModel,
+            String assetKey,
             EquipmentSlot slot,
             double armor,
             double toughness,
@@ -131,7 +150,7 @@ public class DynamicItemCreation {
 
         // Item Data Components
         Equippable.Builder equippableBuilder = item.getData(DataComponentTypes.EQUIPPABLE).toBuilder();
-        equippableBuilder.assetId(Key.key("panita", item.getType() == Material.ELYTRA ? "dragonslayer_elytra" : "dragonslayer"));
+        equippableBuilder.assetId(Key.key("panita", assetKey));
         equippableBuilder.equipSound(SoundEventKeys.ENTITY_ENDER_DRAGON_FLAP);
 
         TagKey<DamageType> tagFire = TagKey.create(RegistryKey.DAMAGE_TYPE, Key.key("panitaend", "resists_fire_and_explosions"));
