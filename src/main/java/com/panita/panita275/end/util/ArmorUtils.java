@@ -8,6 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ArmorUtils {
     private static final NamespacedKey HELMET = NamespacedKey.fromString("panita:dragonslayer_helmet");
     private static final NamespacedKey CHEST = NamespacedKey.fromString("panita:dragonslayer_chestplate");
+    private static final NamespacedKey ELYTRA = NamespacedKey.fromString("panita:dragonslayer_elytra");
     private static final NamespacedKey LEGS = NamespacedKey.fromString("panita:dragonslayer_leggings");
     private static final NamespacedKey BOOTS = NamespacedKey.fromString("panita:dragonslayer_boots");
 
@@ -23,17 +24,19 @@ public class ArmorUtils {
         ItemStack boots = player.getInventory().getBoots();
 
         return hasModel(helmet, HELMET)
-                && hasModel(chest, CHEST)
+                && (hasModel(chest, CHEST) || hasModel(chest, ELYTRA))
                 && hasModel(legs, LEGS)
                 && hasModel(boots, BOOTS);
     }
 
     public static boolean hasDragonSlayerSet(Player player) {
         ItemStack helmet = player.getInventory().getHelmet();
+        ItemStack chest = player.getInventory().getChestplate();
         ItemStack legs = player.getInventory().getLeggings();
         ItemStack boots = player.getInventory().getBoots();
 
         return hasModel(helmet, HELMET)
+                && (hasModel(chest, CHEST) || hasModel(chest, ELYTRA) || true) // remove true statement later
                 && hasModel(legs, LEGS)
                 && hasModel(boots, BOOTS);
     }
@@ -54,6 +57,10 @@ public class ArmorUtils {
      */
     public static boolean isDragonSlayerChestplate(ItemStack item) {
         return hasModel(item, CHEST);
+    }
+
+    public static boolean isDragonSlayerElytra(ItemStack item) {
+        return hasModel(item, ELYTRA);
     }
 
     /**
