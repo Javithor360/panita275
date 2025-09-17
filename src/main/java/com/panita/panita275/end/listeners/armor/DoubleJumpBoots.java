@@ -18,7 +18,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class DoubleJumpListener implements Listener {
+public class DoubleJumpBoots implements Listener {
     private final NamespacedKey doubleJumpKey = new NamespacedKey("panita275", "double_jump");
     private final Set<UUID> canDoubleJump = new HashSet<>();
 
@@ -28,7 +28,7 @@ public class DoubleJumpListener implements Listener {
         UUID id = player.getUniqueId();
 
         // Check if the player is wearing the full Dragon Slayer armor set
-        if (!ArmorUtils.hasFullDragonSlayerSet(player)) return;
+        if (!ArmorUtils.hasDragonSlayerSet(player)) return;
 
         boolean active = player.getInventory().getBoots().getItemMeta().getPersistentDataContainer()
                 .getOrDefault(doubleJumpKey, PersistentDataType.BYTE, (byte) 0) != 0;
@@ -61,7 +61,7 @@ public class DoubleJumpListener implements Listener {
         // Then be sure the item is the Dragon Slayer Helmet
         ItemStack item = event.getItem();
         Player player = event.getPlayer();
-        if (item == null) return;
+        if (item == null || item.getType() != Material.IRON_BOOTS) return;
         if (!ArmorUtils.isDragonSlayerBoots(item)) return;
 
         // Also be sure the player is actually holding the helmet in their main hand

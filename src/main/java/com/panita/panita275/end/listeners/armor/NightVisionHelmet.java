@@ -5,6 +5,7 @@ import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.core.util.SoundUtils;
 import com.panita.panita275.end.util.ArmorUtils;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,7 +33,7 @@ public class NightVisionHelmet implements Listener {
         // Then be sure the item is the Dragon Slayer Helmet
         ItemStack item = event.getItem();
         Player player = event.getPlayer();
-        if (item == null) return;
+        if (item == null || item.getType() != Material.IRON_HELMET) return;
         if (!ArmorUtils.isDragonSlayerHelmet(item)) return;
 
         // Also be sure the player is actually holding the helmet in their main hand
@@ -72,7 +73,7 @@ public class NightVisionHelmet implements Listener {
             player.removePotionEffect(PotionEffectType.NIGHT_VISION);
         }
 
-        if (ArmorUtils.isDragonSlayerHelmet(newItem)) {
+        if (ArmorUtils.isDragonSlayerHelmet(newItem) && ArmorUtils.hasDragonSlayerSet(player)) {
             boolean active = newItem.getItemMeta().getPersistentDataContainer()
                     .getOrDefault(nightVisionKey, PersistentDataType.BYTE, (byte) 0) != 0;
             if (active) {
