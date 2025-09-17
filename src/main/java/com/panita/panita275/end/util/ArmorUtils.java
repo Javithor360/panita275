@@ -28,6 +28,16 @@ public class ArmorUtils {
                 && hasModel(boots, BOOTS);
     }
 
+    public static boolean hasDragonSlayerSet(Player player) {
+        ItemStack helmet = player.getInventory().getHelmet();
+        ItemStack legs = player.getInventory().getLeggings();
+        ItemStack boots = player.getInventory().getBoots();
+
+        return hasModel(helmet, HELMET)
+                && hasModel(legs, LEGS)
+                && hasModel(boots, BOOTS);
+    }
+
     /**
      * Check if the item is the Dragon Slayer Helmet.
      * @param item the item to check
@@ -44,6 +54,15 @@ public class ArmorUtils {
      */
     public static boolean isDragonSlayerChestplate(ItemStack item) {
         return hasModel(item, CHEST);
+    }
+
+    /**
+     * Check if the item is the Dragon Slayer Leggings.
+     * @param item the item to check
+     * @return true if the item is the Dragon Slayer Leggings, false otherwise
+     */
+    public static  boolean isDragonSlayerLeggings(ItemStack item) {
+        return hasModel(item, LEGS);
     }
 
     /**
