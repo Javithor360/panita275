@@ -1,10 +1,7 @@
 package com.panita.panita275.troll.util;
 
-import com.panita.panita275.Panitacraft;
 import com.panita.panita275.core.chat.Messenger;
-import com.panita.panita275.core.config.ConfigDefaults;
 import com.panita.panita275.qol.util.CustomItemManager;
-import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -100,6 +97,46 @@ public class DynamicItemCreation {
                 "minecraft:golden_apple",
                 true,
                 true
+        );
+
+        createDetailedCustomItemIfMissing(
+                "scroll_upgrade_enderchest_4",
+                Material.PAPER,
+                "<!italic><#9863E7>Pergamo de Mejora: Enderchest IV",
+                List.of("&8&oAl consumirlo, aumenta el espacio de", "&8tu Enderchest.", "&7", "&dConseguido de manera &5ludopática", "&ddurante Panitacraft 2.75."),
+                "panita:scroll_upgrade",
+                false,
+                false
+        );
+
+        createDetailedCustomItemIfMissing(
+                "scroll_upgrade_enderchest_5",
+                Material.PAPER,
+                "<!italic><#9863E7>Pergamo de Mejora: Enderchest V",
+                List.of("&8&oAl consumirlo, aumenta el espacio de", "&8&otu Enderchest. Pero, necesario haber", "&8&oconsumido un pergamino de &7&oNivel IV", "&8antes de activa la mejora.", "&7", "&dConseguido de manera &5ludopática", "&ddurante Panitacraft 2.75."),
+                "panita:scroll_upgrade",
+                false,
+                false
+        );
+
+        createDetailedCustomItemIfMissing(
+                "scroll_upgrade_enderchest_6",
+                Material.PAPER,
+                "<!italic><#9863E7>Pergamo de Mejora: Enderchest VI",
+                List.of("&8&oAl consumirlo, aumenta el espacio de", "&8&otu Enderchest. Pero, necesario haber", "&8&oconsumido un pergamino de &7&oNivel V", "&8antes de activa la mejora.", "&7", "&dConseguido de manera &5ludopática", "&ddurante Panitacraft 2.75."),
+                "panita:scroll_upgrade",
+                false,
+                false
+        );
+
+        createDetailedCustomItemIfMissing(
+                "scroll_upgrade_enderchest_command",
+                Material.PAPER,
+                "<!italic><#9863E7>Pergamo de Mejora: Enderchest Inalámbrico",
+                List.of("&8&oAl consumirlo, permite abrir tu Enderchest", "&8desde cualquier lugar", "&7", "&dConseguido de manera &5ludopática", "&ddurante Panitacraft 2.75."),
+                "panita:scroll_upgrade",
+                false,
+                false
         );
     }
 
