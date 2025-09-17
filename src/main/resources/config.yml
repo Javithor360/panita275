@@ -30,6 +30,39 @@ troll:
   affectedPlayers:
     - Griisaia
     - MrUnused
+  enderUpgrades:
+    enabled: true
+    items:
+      scroll_upgrade_enderchest_4:
+        commands:
+          - "lp user %player% permission set enderchest.size.4 true"
+        message:
+          text: "&aTu Enderchest ha incrementado su espacio hasta &e36&a slots."
+          sound: "minecraft:entity.player.levelup"
+        permission:
+      scroll_upgrade_enderchest_5:
+        commands:
+          - "lp user %player% permission set enderchest.size.5 true"
+          - "lp user %player% permission unset enderchest.size.4"
+        message:
+          text: "&aTu Enderchest ha incrementado su espacio hasta &e45&a slots."
+          sound: "minecraft:entity.player.levelup"
+        permission: "enderchest.size.4"
+      scroll_upgrade_enderchest_6:
+        commands:
+          - "lp user %player% permission set enderchest.size.6 true"
+          - "lp user %player% permission unset enderchest.size.5"
+        message:
+          text: "&aTu Enderchest ha incrementado su espacio hasta &e54&a slots."
+          sound: "minecraft:entity.player.levelup"
+        permission: "enderchest.size.5"
+      scroll_upgrade_enderchest_command:
+        commands:
+          - "lp user %player% permission set enderchest.command true"
+        message:
+          text: "&aTu Enderchest se ha conectado de manera inalámbrica, ahora puedes abrirlo con &e/ec"
+          sound: "minecraft:entity.player.levelup"
+        permission:
 milestone_events:
   enabled: true
 end:
