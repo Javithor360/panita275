@@ -29,6 +29,19 @@ public class ConfigDefaults {
     // --- Troll Module ---
     public static final boolean TROLL_ENABLED = true;
     public static final List<String> TROLL_AFFECTED_PLAYERS = List.of("Griisaia");
+    public static final boolean TROLL_ENDER_UPGRADES_ENABLED = true;
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_4_MESSAGE_TEXT = "&aTu Enderchest ha incrementado su espacio hasta &e36&a slots.";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_4_MESSAGE_SOUND = "minecraft:entity.player.levelup";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_4_PERMISSION = "";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_5_MESSAGE_TEXT = "&aTu Enderchest ha incrementado su espacio hasta &e45&a slots.";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_5_MESSAGE_SOUND = "minecraft:entity.player.levelup";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_5_PERMISSION = "enderchest.size.4";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_6_MESSAGE_TEXT = "&aTu Enderchest ha incrementado su espacio hasta &e54&a slots.";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_6_MESSAGE_SOUND = "minecraft:entity.player.levelup";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_6_PERMISSION = "enderchest.size.5";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_COMMAND_MESSAGE_TEXT = "&aTu Enderchest se ha conectado de manera inalámbrica, ahora puedes abrirlo con &e/ec";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_COMMAND_MESSAGE_SOUND = "minecraft:entity.player.levelup";
+    public static final String TROLL_ENDER_UPGRADES_ITEMS_SCROLL_UPGRADE_ENDERCHEST_COMMAND_PERMISSION = "";
 
     // --- End Module ---
     public static final boolean END_ENABLED = true;
