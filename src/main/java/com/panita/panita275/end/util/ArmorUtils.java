@@ -1,5 +1,6 @@
 package com.panita.panita275.end.util;
 
+import com.panita.panita275.core.util.ItemUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -82,9 +83,6 @@ public class ArmorUtils {
     }
 
     private static boolean hasModel(ItemStack item, NamespacedKey modelKey) {
-        if (item == null || !item.hasItemMeta()) return false;
-        ItemMeta meta = item.getItemMeta();
-        NamespacedKey key = meta.getItemModel();
-        return key != null && key.equals(modelKey);
+        return ItemUtils.checkItemModel(item, modelKey);
     }
 }
