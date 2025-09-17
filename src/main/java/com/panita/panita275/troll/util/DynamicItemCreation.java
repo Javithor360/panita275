@@ -4,6 +4,7 @@ import com.panita.panita275.Panitacraft;
 import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.core.config.ConfigDefaults;
 import com.panita.panita275.qol.util.CustomItemManager;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,7 +22,7 @@ public class DynamicItemCreation {
         createCustomItemIfMissing(
                 "life_cutter",
                 Material.SHEARS,
-                "<gradient:#FC1A2C:#B15960>Falso Tortazo</gradient>",
+                "<!italic><gradient:#FC1A2C:#B15960>Falso Tortazo</gradient>",
                 List.of(
                         "&7Un ítem malévolo utilizado como método",
                         "&7de tortura para aquellos que han cometido",
@@ -32,7 +33,7 @@ public class DynamicItemCreation {
         createCustomItemIfMissing(
                 "heart_stealer",
                 Material.LEAD,
-                "<gradient:#FC1A2C:#B15960>Látigo Cruel</gradient>",
+                "<!italic><gradient:#FC1A2C:#B15960>Látigo Cruel</gradient>",
                 List.of(
                         "&7Un ítem malévolo utilizado como método",
                         "&7de tortura para aquellos que han cometido",
@@ -43,7 +44,7 @@ public class DynamicItemCreation {
         createCustomItemIfMissing(
                 "heart_restorer",
                 Material.BRUSH,
-                "<gradient:#FC1A2C:#B15960>Peluza Amorosa</gradient>",
+                "<!italic><gradient:#FC1A2C:#B15960>Peluza Amorosa</gradient>",
                 List.of(
                         "&7Un ítem benévolo utilizado como método",
                         "&7de perdón para aquellos que han cometido",
@@ -54,7 +55,7 @@ public class DynamicItemCreation {
         createCustomItemIfMissing(
                 "heart_restorer",
                 Material.BRUSH,
-                "<gradient:#FC1A2C:#B15960>Peluza Amorosa</gradient>",
+                "<!italic><gradient:#FC1A2C:#B15960>Peluza Amorosa</gradient>",
                 List.of(
                         "&7Un ítem benévolo utilizado como método",
                         "&7de perdón para aquellos que han cometido",
@@ -63,6 +64,43 @@ public class DynamicItemCreation {
         );
 
         createHeartPotionIfMissing();
+
+        createDetailedCustomItemIfMissing(
+                "golden_beetroot",
+                Material.BEETROOT,
+                "<!italic><gradient:#FDBF1C:#F3FFA9:#FDBF1C>Remolacha Dorada</gradient>",
+                List.of(
+                        "&7",
+                        "&9No se consume al comerla.", "&7",
+                        "&9Ten &esiempre &9al menos &edos unidades",
+                        "&een el inventario &9para que funcione", "&7",
+                        "&cNo se puede cultivar.", "&7",
+                        "&dEste ítem es de origen &4paradójico",
+                        "&dconseguido de manera &5ludopática",
+                        "&ddurante Panitacraft 2.75.", "&7"
+                ),
+                "panita:beetroot_dorada",
+                true,
+                true
+        );
+
+        createDetailedCustomItemIfMissing(
+                "infinite_golden_apple",
+                Material.APPLE,
+                "<!italic><gradient:#FDBF1C:#F3FFA9:#FDBF1C>Manzana Doradísima</gradient>",
+                List.of(
+                        "&7",
+                        "&9No se consume al comerla.", "&7",
+                        "&9Ten &esiempre &9al menos &edos unidades",
+                        "&een el inventario &9para que funcione", "&7",
+                        "&dEste ítem es de origen &4paradójico",
+                        "&dconseguido de manera &5ludopática",
+                        "&ddurante Panitacraft 2.75.", "&7"
+                ),
+                "minecraft:golden_apple",
+                true,
+                true
+        );
     }
 
     private static void createCustomItemIfMissing(
@@ -83,6 +121,43 @@ public class DynamicItemCreation {
         item.setItemMeta(meta);
         CustomItemManager.saveItem(key, item);
 
+        Messenger.prefixedBroadcast("&aSe ha creado el item " + displayName + " para el modulo troll.");
+    }
+
+    private static void createDetailedCustomItemIfMissing(
+            String key,
+            Material material,
+            String displayName,
+            List<String> lore,
+            String itemModel,
+            boolean unbreakable,
+            boolean glint
+    ) {
+        if (CustomItemManager.getItem(key) != null) return;
+
+        ItemStack item = ItemStack.of(material);
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
+
+        meta.displayName(Messenger.mini(displayName));
+        meta.lore(lore.stream().map(line -> Messenger.mini("<!italic>" + line)).toList());
+
+        if (itemModel != null && !itemModel.isEmpty()) {
+            meta.setItemModel(NamespacedKey.fromString(itemModel));
+        }
+
+        if (unbreakable) {
+            meta.setUnbreakable(true);
+        }
+
+        if (glint) {
+            meta.setEnchantmentGlintOverride(true);
+        }
+
+
+        item.setItemMeta(meta);
+
+        CustomItemManager.saveItem(key, item);
         Messenger.prefixedBroadcast("&aSe ha creado el item " + displayName + " para el modulo troll.");
     }
 
