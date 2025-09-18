@@ -20,7 +20,7 @@ public class InfiniteFood implements Listener {
 
         NamespacedKey item = ItemUtils.getItemModel(event.getItem());
 
-        if (itemStack.getAmount() < 2) return;
+        if (item == null || itemStack.getAmount() < 2) return;
 
         switch (item.getKey()) {
             case "beetroot_dorada" -> {
@@ -41,6 +41,9 @@ public class InfiniteFood implements Listener {
 
                 player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 60 * 20, 0, false, true, true));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 15 * 20, 0, false, true, true));
+            }
+            default -> {
+                return;
             }
         }
     }
