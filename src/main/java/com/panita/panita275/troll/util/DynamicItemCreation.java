@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DynamicItemCreation {
@@ -135,6 +134,26 @@ public class DynamicItemCreation {
                 "<!italic><#9863E7>Pergamo de Mejora: Enderchest Inalámbrico",
                 List.of("&8&oAl consumirlo, permite abrir tu Enderchest", "&8desde cualquier lugar", "&7", "&dConseguido de manera &5ludopática", "&ddurante Panitacraft 2.75."),
                 "panita:scroll_upgrade",
+                false,
+                false
+        );
+
+        createDetailedCustomItemIfMissing(
+                "colytra_upgrade_smithing_template",
+                Material.PAPER,
+                "<!italic><#9863E7>Mejora de Colytra",
+                List.of("&9Materiales", "&7Plantilla de herrería", "&7", "&7Se aplica a:", " &9Peto de diamante y netherite", "&7Ingredientes:", " &9Elytra"),
+                "panita:colytra_upgrade_smithing_template",
+                false,
+                false
+        );
+
+        createDetailedCustomItemIfMissing(
+                "enderslayer_colytra_upgrade_smithing_template",
+                Material.PAPER,
+                "<!italic><gradient:#A61AFC:#E43A96>Mejora de Colytra de Cazadragón</gradient>",
+                List.of("&9Materiales", "&7Plantilla de herrería", "&7", "&7Se aplica a:", " &9Peto de Cazadragón", "&7Ingredientes:", " &9Elytra de Cazadragón"),
+                "panita:colytra_upgrade_smithing_template",
                 false,
                 false
         );
