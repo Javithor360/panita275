@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -22,10 +23,17 @@ public class InfiniteFood implements Listener {
 
         if (item == null || itemStack.getAmount() < 2) return;
 
+        EquipmentSlot hand = event.getHand();
+
         switch (item.getKey()) {
             case "beetroot_dorada" -> {
                 event.setCancelled(true);
-                player.getInventory().setItemInMainHand(itemStack);
+
+                if (hand == EquipmentSlot.HAND) {
+                    player.getInventory().setItemInMainHand(itemStack);
+                } else if (hand == EquipmentSlot.OFF_HAND) {
+                    player.getInventory().setItemInOffHand(itemStack);
+                }
 
                 player.setFoodLevel(Math.min(20, player.getFoodLevel() + 7));
                 player.setSaturation(Math.min(20, player.getSaturation() + 12));
@@ -34,7 +42,12 @@ public class InfiniteFood implements Listener {
                 if (event.getItem().getType() != Material.APPLE) return;
 
                 event.setCancelled(true);
-                player.getInventory().setItemInMainHand(itemStack);
+
+                if (hand == EquipmentSlot.HAND) {
+                    player.getInventory().setItemInMainHand(itemStack);
+                } else if (hand == EquipmentSlot.OFF_HAND) {
+                    player.getInventory().setItemInOffHand(itemStack);
+                }
 
                 player.setFoodLevel(Math.min(20, player.getFoodLevel() + 4));
                 player.setSaturation(Math.min(20, player.getSaturation() + 9.6f));
