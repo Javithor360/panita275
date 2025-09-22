@@ -17,6 +17,10 @@ public class ElytraDrop implements Listener {
         if (!(event.getEntity() instanceof EnderDragon)) return;
         ItemStack elytra = CustomItemManager.getItem("dragonslayer_elytra");
         if (elytra == null) return;
+
+        double chance = Panitacraft.getConfigManager().getDouble("end.event.armor.elytraDropChance", ConfigDefaults.END_EVENT_ARMOR_ELYTRA_DROP_CHANCE);
+        if (Math.random() <= chance) return;
+
         event.getDrops().add(elytra);
         event.setDroppedExp(2500);
     }

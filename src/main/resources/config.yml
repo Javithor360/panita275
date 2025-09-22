@@ -106,3 +106,4 @@ end:
       doubleJump: true
       nightVision: true
       dragonDropElytra: true
+      elytraDropChance: 0.4
