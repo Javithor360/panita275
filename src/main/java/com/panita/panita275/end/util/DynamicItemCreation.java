@@ -100,6 +100,32 @@ public class DynamicItemCreation {
                 4.0,
                 0.1
         );
+
+        createArmorPieceIfMissing(
+                "diamond_elytra",
+                Material.ELYTRA,
+                "<!italic><#9863E7>Elytra de Diamante",
+                List.of("&7", "&dObtenido de manera &5ludopática", "&ddurante Panitacraft 2.75"),
+                "panita:diamond_elytra",
+                "diamond_elytra",
+                EquipmentSlot.CHEST,
+                8.0,
+                2.0,
+                0.0
+        );
+
+        createArmorPieceIfMissing(
+                "netherite_elytra",
+                Material.ELYTRA,
+                "<!italic><#9863E7>Elytra de Netherite",
+                List.of("&7", "&dObtenido de manera &5ludopática", "&ddurante Panitacraft 2.75"),
+                "panita:netherite_elytra",
+                "netherite_elytra",
+                EquipmentSlot.CHEST,
+                8.0,
+                3.0,
+                0.1
+        );
     }
 
     private static void createArmorPieceIfMissing(
