@@ -77,4 +77,6 @@ public class ConfigDefaults {
     public static final boolean END_EVENT_SHULKERS_VARIATIONS = true;
     public static final boolean END_EVENT_ARMOR_DOUBLE_JUMP = true;
     public static final boolean END_EVENT_ARMOR_NIGHT_VISION = true;
+    public static final boolean END_EVENT_ARMOR_VOID_SAFETY = true;
+    public static final boolean END_EVENT_ARMOR_DRAGON_DROP_ELYTRA = true;
 }
