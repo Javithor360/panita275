@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
@@ -157,6 +158,76 @@ public class DynamicItemCreation {
                 false,
                 false
         );
+
+        createDetailedCustomItemIfMissing(
+                "infinite_water_bucket",
+                Material.WATER_BUCKET,
+                "<!italic><gradient:#5FE2C5:4498DB>Cubo de Agua Infinito</gradient>",
+                List.of(
+                        "&7",
+                        "&9No se vacía al utilizarla.", "&7",
+                        "&9Ten &esiempre &9al menos &edos unidades",
+                        "&een el inventario &9para que funcione", "&7",
+                        "&dEste ítem es de origen &4paradójico",
+                        "&dconseguido de manera &5ludopática",
+                        "&ddurante Panitacraft 2.75.", "&7"
+                ),
+                null,
+                true,
+                true
+        );
+
+        createDetailedCustomItemIfMissing(
+                "infinite_torch",
+                Material.TORCH,
+                "<!italic><gradient:#FDBF1C:#F3FFA9:#FDBF1C>Antorcha Infinita</gradient>",
+                List.of(
+                        "&7",
+                        "&9No se consume al colocarla.", "&7",
+                        "&dEste ítem es de origen &4paradójico",
+                        "&dconseguido de manera &5ludopática",
+                        "&ddurante Panitacraft 2.75.", "&7"
+                ),
+                null,
+                true,
+                true
+        );
+
+        createDetailedCustomItemIfMissing(
+                "infinite_wind_charge",
+                Material.WIND_CHARGE,
+                "<!italic><gradient:#5FE2C5:4498DB>Wind Charge Infinita</gradient>",
+                List.of(
+                        "&7",
+                        "&9No se consume al utilizarla.", "&7",
+                        "&9Ten &esiempre &9al menos &edos unidades",
+                        "&een el inventario &9para que funcione", "&7",
+                        "&dEste ítem es de origen &4paradójico",
+                        "&dconseguido de manera &5ludopática",
+                        "&ddurante Panitacraft 2.75.", "&7"
+                ),
+                null,
+                true,
+                true
+        );
+
+        createDetailedCustomItemIfMissing(
+                "infinite_firework_rocket",
+                Material.FIREWORK_ROCKET,
+                "<!italic><gradient:#5FE2C5:4498DB>Cohete de Fuegos Artificiales Infinito</gradient>",
+                List.of(
+                        "&7",
+                        "&9No se consume al utilizarlo.", "&7",
+                        "&9Ten &esiempre &9al menos &edos unidades",
+                        "&een el inventario &9para que funcione", "&7",
+                        "&dEste ítem es de origen &4paradójico",
+                        "&dconseguido de manera &5ludopática",
+                        "&ddurante Panitacraft 2.75.", "&7"
+                ),
+                null,
+                true,
+                true
+        );
     }
 
     private static void createCustomItemIfMissing(
@@ -210,6 +281,10 @@ public class DynamicItemCreation {
             meta.setEnchantmentGlintOverride(true);
         }
 
+        if (key.equals("infinite_firework_rocket")) {
+            FireworkMeta fireworkMeta = (FireworkMeta) meta;
+            fireworkMeta.setPower(1);
+        }
 
         item.setItemMeta(meta);
 
