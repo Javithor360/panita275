@@ -5,6 +5,7 @@ import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.core.util.ItemUtils;
 import com.panita.panita275.qol.util.CustomItemManager;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -93,7 +94,7 @@ public class InfiniteItems implements Listener {
         if (!CustomItemManager.isCustomItem(item, "infinite_wind_charge")) return;
 
         Player player = event.getPlayer();
-        if (!hasAtLeastTwo(player, Material.WIND_CHARGE)) return;
+        if (player.getGameMode() == GameMode.CREATIVE || !hasAtLeastTwo(player, Material.WIND_CHARGE)) return;
         if (player.hasCooldown(item)) return;
 
         item.setAmount(item.getAmount() + 1);
@@ -119,7 +120,7 @@ public class InfiniteItems implements Listener {
 
         // Check if the player has at least two firework rockets in their inventory
         Player player = event.getPlayer();
-        if (!hasAtLeastTwo(player, Material.FIREWORK_ROCKET)) return;
+        if (player.getGameMode() == GameMode.CREATIVE || !hasAtLeastTwo(player, Material.FIREWORK_ROCKET)) return;
         if (player.hasCooldown(item)) return;
 
         // Replenish the firework rocket used based on the action type
