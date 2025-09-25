@@ -166,8 +166,6 @@ public class DynamicItemCreation {
                 List.of(
                         "&7",
                         "&9No se vacía al utilizarla.", "&7",
-                        "&9Ten &esiempre &9al menos &edos unidades",
-                        "&een el inventario &9para que funcione", "&7",
                         "&dEste ítem es de origen &4paradójico",
                         "&dconseguido de manera &5ludopática",
                         "&ddurante Panitacraft 2.75.", "&7"
