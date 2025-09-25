@@ -162,7 +162,7 @@ public class DynamicItemCreation {
         createDetailedCustomItemIfMissing(
                 "infinite_water_bucket",
                 Material.WATER_BUCKET,
-                "<!italic><gradient:#5FE2C5:4498DB>Cubo de Agua Infinito</gradient>",
+                "<!italic><gradient:#5FE2C5:#4498DB>Cubo de Agua Infinito</gradient>",
                 List.of(
                         "&7",
                         "&9No se vacía al utilizarla.", "&7",
@@ -180,7 +180,7 @@ public class DynamicItemCreation {
         createDetailedCustomItemIfMissing(
                 "infinite_torch",
                 Material.TORCH,
-                "<!italic><gradient:#FDBF1C:#F3FFA9:#FDBF1C>Antorcha Infinita</gradient>",
+                "<!italic><gradient:#5FE2C5:#4498DB>Antorcha Infinita</gradient>",
                 List.of(
                         "&7",
                         "&9No se consume al colocarla.", "&7",
@@ -196,7 +196,7 @@ public class DynamicItemCreation {
         createDetailedCustomItemIfMissing(
                 "infinite_wind_charge",
                 Material.WIND_CHARGE,
-                "<!italic><gradient:#5FE2C5:4498DB>Wind Charge Infinita</gradient>",
+                "<!italic><gradient:#5FE2C5:#4498DB>Wind Charge Infinita</gradient>",
                 List.of(
                         "&7",
                         "&9No se consume al utilizarla.", "&7",
@@ -214,7 +214,7 @@ public class DynamicItemCreation {
         createDetailedCustomItemIfMissing(
                 "infinite_firework_rocket",
                 Material.FIREWORK_ROCKET,
-                "<!italic><gradient:#5FE2C5:4498DB>Cohete de Fuegos Artificiales Infinito</gradient>",
+                "<!italic><gradient:#5FE2C5:#4498DB>Cohete de Fuegos Artificiales Infinito</gradient>",
                 List.of(
                         "&7",
                         "&9No se consume al utilizarlo.", "&7",
