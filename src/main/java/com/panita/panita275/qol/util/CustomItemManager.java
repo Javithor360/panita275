@@ -165,4 +165,19 @@ public class CustomItemManager {
         NamespacedKey key = new NamespacedKey(Panitacraft.getInstance(), "custom_item_id");
         return meta.getPersistentDataContainer().has(key, PersistentDataType.STRING);
     }
+
+    /**
+     * Checks if an ItemStack is a specific custom saved item by comparing the custom identifier in its metadata.
+     * @param item The ItemStack to check.
+     * @param name The name of the custom item to compare against.
+     * @return true if the item matches the specified custom item, false otherwise.
+     */
+    public static boolean isCustomItem(ItemStack item, String name) {
+        if (item == null || !item.hasItemMeta()) return false;
+
+        ItemMeta meta = item.getItemMeta();
+        NamespacedKey key = new NamespacedKey(Panitacraft.getInstance(), "custom_item_id");
+        String id = meta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
+        return name.equals(id);
+    }
 }
