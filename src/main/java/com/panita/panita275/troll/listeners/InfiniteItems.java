@@ -140,7 +140,11 @@ public class InfiniteItems implements Listener {
             Bukkit.getScheduler().runTaskLater(Panitacraft.getInstance(), () -> {
                 player.setCooldown(Material.FIREWORK_ROCKET, 3 * 20);
             }, 1L);
+
+            return;
         }
+
+        event.setCancelled(true);
     }
 
     @EventHandler
