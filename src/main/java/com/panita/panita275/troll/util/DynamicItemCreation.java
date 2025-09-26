@@ -2,6 +2,7 @@ package com.panita.panita275.troll.util;
 
 import com.panita.panita275.core.chat.Messenger;
 import com.panita.panita275.qol.util.CustomItemManager;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -226,6 +227,8 @@ public class DynamicItemCreation {
                 true,
                 true
         );
+
+        createRechargeableRocketIfMissing();
     }
 
     private static void createCustomItemIfMissing(
@@ -288,6 +291,44 @@ public class DynamicItemCreation {
 
         CustomItemManager.saveItem(key, item);
         Messenger.prefixedBroadcast("&aSe ha creado el item " + displayName + " para el modulo troll.");
+    }
+
+    private static void createRechargeableRocketIfMissing() {
+        if (CustomItemManager.getItem("rechargeable_firework") != null) return;
+
+        ItemStack item = new ItemStack(Material.FIREWORK_ROCKET);
+        ItemMeta meta = item.getItemMeta();
+
+        meta.displayName(Messenger.mini("<!italic><gradient:#FC284B:#EE30D9:#FC284B>Cohete Recargable</gradient>"));
+        List<String> lore = List.of(
+                "<#9c1a1a>\uD83D\uDCA5</#9c1a1a> <#fc993d>Poder de Vuelo:</#fc993d> <#a0fc97>Nivel 1", "&7",
+                "&9Debe ser &erecargado &9periódicamente.",
+                "&8&oPara recargar, sostén el cohete con la mano",
+                "&8&oprincipal y presiona Shift + Click Derecho",
+                "&8&oapuntando al aire para utilizar toda la pólvora",
+                "&8&onecesaria de tu inventario (Máximo 12 stacks).", "&7",
+                "&9Puede alternar la &epotencia de vuelo&9.",
+                "&8&oPara cambiar su nivel, presiona Click Izquierdo",
+                "&8&oapuntando al aire.", "&7",
+                "&9Consume el &edoble &9de pólvora con respecto",
+                "&9a un cohete normal.", "&7",
+                "&dConseguido de manera &5ludopática",
+                "&ddurante Panitacraft 2.75."
+        );
+        meta.lore(lore.stream().map(line -> Messenger.mini("<!italic>" + line)).toList());
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+
+        FireworkMeta fireworkMeta = (FireworkMeta) meta;
+        fireworkMeta.setPower(1);
+
+        item.setItemMeta(meta);
+
+        item.setData(DataComponentTypes.MAX_STACK_SIZE, 1);
+        item.setData(DataComponentTypes.MAX_DAMAGE, 768);
+        item.setData(DataComponentTypes.DAMAGE, 768);
+
+        CustomItemManager.saveItem("rechargeable_firework", item);
+        Messenger.prefixedBroadcast("&aSe ha creado el item Cohete Recargable para el módulo troll.");
     }
 
     private static void createHeartPotionIfMissing() {
