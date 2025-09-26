@@ -137,4 +137,88 @@ public class RechargeableFirework implements Listener {
         item.setItemMeta(meta);
         Messenger.prefixedSend(player, "&7El &bPoder de Vuelo &7del cohete cambiado a &b" + levelText + "&7.");
     }
+
+    /**
+     * This handles the logic to use a rechargeable firework rocket
+     * consuming energy based on its power level and preventing usage
+     * if the rocket is out of energy
+     */
+    @EventHandler
+    public void onRechargeableFireworkUse(PlayerInteractEvent event) {
+        if (event.getItem() == null) return;
+
+        // Only proceed if the action is a right-click (either in air or on a block)
+        Action action = event.getAction();
+        if (!(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) return;
+
+        // Ensure the item is a firework rocket and is the custom rechargeable firework rocket
+        ItemStack item = event.getItem();
+        if (item.getType() != Material.FIREWORK_ROCKET) return;
+        if (!CustomItemManager.isCustomItem(item, "rechargeable_firework")) return;
+
+        // Check if the player is in creative or has a cooldown
+        Player player = event.getPlayer();
+        if (player.getGameMode() == GameMode.CREATIVE) return;
+        if (player.hasCooldown(item)) return;
+
+        // Retrieve the specific data components
+        Integer maxEnergy = item.getData(DataComponentTypes.MAX_DAMAGE);
+        Integer currentDamage = item.getData(DataComponentTypes.DAMAGE);
+        if (maxEnergy == null || currentDamage == null) return;
+
+        // Calculate current energy
+        int currentEnergy = maxEnergy - currentDamage;
+
+        // If the action is right click block, just cancel the event to prevent placing
+        if (action == Action.RIGHT_CLICK_BLOCK) {
+            event.setCancelled(true);
+            return;
+        }
+
+        // If the action is right click air, check if the player is gliding and has enough energy
+        if (action == Action.RIGHT_CLICK_AIR && player.isGliding()) {
+            FireworkMeta meta = (FireworkMeta) item.getItemMeta();
+            int powerLevel = meta.getPower();
+            if (powerLevel <= 0) powerLevel = 1; // Default to level 1 if something goes wrong
+
+            // Define energy cost based on power level
+            int energyCost = powerLevel * 2;
+
+            // Check if there's enough energy to use the firework
+            if (currentEnergy < energyCost) {
+                event.setCancelled(true);
+                Messenger.prefixedSend(player, "&7Tu cohete no tiene energía suficiente para ser utilizado (&b" + currentEnergy + "/" + maxEnergy + "&7).");
+                SoundUtils.play(player, "minecraft:block.anvil.destroy", 1, 2f);
+
+                Bukkit.getScheduler().runTaskLater(Panitacraft.getInstance(), () -> {
+                    player.setCooldown(item, 1 * 20);
+                }, 1L);
+
+                return;
+            }
+
+            // Give back the firework used
+            item.setAmount(item.getAmount() + 1);
+
+            // Calculate and set the new damage (energy consumption)
+            int newDamage = currentDamage + energyCost;
+            if (newDamage > maxEnergy) newDamage = maxEnergy;
+            item.setData(DataComponentTypes.DAMAGE, newDamage);
+
+            // Show a warning if the energy is below 10
+            if (maxEnergy - newDamage < 10) {
+                Messenger.prefixedSend(player, "&7Tu cohete se está quedando sin energía. ¡Recárgalo lo más pronto posible! (&b" + (maxEnergy - newDamage) + "/" + maxEnergy + "&7).");
+            }
+
+            if (maxEnergy - newDamage == 0) {
+                Messenger.prefixedSend(player, "&cTu cohete se ha quedado sin energía. Recárgalo para poder usarlo de nuevo.");
+                SoundUtils.play(player, "minecraft:entity.item.break", 1, 1f);
+            }
+
+            return;
+        }
+
+        // Cancel the event in any other case just to prevent usage
+        event.setCancelled(true);
+    }
 }
