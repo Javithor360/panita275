@@ -62,14 +62,14 @@ public class DynamicItemCreation {
                 0.05
         );
 
-        createArmorPieceIfMissing(
+        createElytraIfMissing(
                 "dragonslayer_colytra",
-                Material.ELYTRA,
+                Material.IRON_CHESTPLATE,
                 "<!italic><gradient:#A61AFC:#E43A96>Colytra de Cazadragón</gradient>",
                 List.of("&a✔ Inmunidad contra el Vacío activada", "&7", "&dObtenido por participar en el evento de la", "&5Revancha contra el End &dde Panitacraft 2.75"),
                 "panita:dragonslayer_colytra",
                 "dragonslayer_colytra",
-                EquipmentSlot.CHEST,
+                3600,
                 12.0,
                 4.0,
                 0.1
@@ -101,27 +101,27 @@ public class DynamicItemCreation {
                 0.1
         );
 
-        createArmorPieceIfMissing(
+        createElytraIfMissing(
                 "diamond_elytra",
-                Material.ELYTRA,
+                Material.DIAMOND_CHESTPLATE,
                 "<!italic><#9863E7>Elytra de Diamante",
                 List.of("&7", "&dObtenido de manera &5ludopática", "&ddurante Panitacraft 2.75"),
                 "panita:diamond_elytra",
                 "diamond_elytra",
-                EquipmentSlot.CHEST,
+                1056,
                 8.0,
                 2.0,
                 0.0
         );
 
-        createArmorPieceIfMissing(
+        createElytraIfMissing(
                 "netherite_elytra",
-                Material.ELYTRA,
+                Material.NETHERITE_CHESTPLATE,
                 "<!italic><#9863E7>Elytra de Netherite",
                 List.of("&7", "&dObtenido de manera &5ludopática", "&ddurante Panitacraft 2.75"),
                 "panita:netherite_elytra",
                 "netherite_elytra",
-                EquipmentSlot.CHEST,
+                1184,
                 8.0,
                 3.0,
                 0.1
@@ -186,6 +186,62 @@ public class DynamicItemCreation {
         item.setData(DataComponentTypes.EQUIPPABLE, equippableBuilder.build());
 
         CustomItemManager.saveItem(key, item);
-        Messenger.prefixedBroadcast("&dSe ha creado la pieza " + displayName + " para el set Cazadragón.");
+        Messenger.prefixedBroadcast("&dSe ha creado la pieza " + displayName + " &dpara el set Cazadragón.");
+    }
+
+    private static void createElytraIfMissing(
+            String key,
+            Material material,
+            String displayName,
+            List<String> lore,
+            String itemModel,
+            String assetKey,
+            int durability,
+            double armor,
+            double toughness,
+            double knockbackResistance
+    ) {
+        if (CustomItemManager.getItem(key) != null) return;
+
+        ItemStack item = ItemStack.of(material);
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
+
+        meta.displayName(Messenger.mini(displayName));
+        meta.lore(lore.stream().map(line -> Messenger.mini("<!italic>" + line)).toList());
+
+        meta.setItemModel(NamespacedKey.fromString(itemModel));
+
+        if (armor > 0) {
+            meta.addAttributeModifier(Attribute.ARMOR,
+                    new AttributeModifier(NamespacedKey.fromString(itemModel), armor, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.CHEST));
+        }
+
+        if (toughness > 0) {
+            meta.addAttributeModifier(Attribute.ARMOR_TOUGHNESS,
+                    new AttributeModifier(NamespacedKey.fromString(itemModel), toughness, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.CHEST));
+        }
+
+        if (knockbackResistance > 0) {
+            meta.addAttributeModifier(Attribute.KNOCKBACK_RESISTANCE,
+                    new AttributeModifier(NamespacedKey.fromString(itemModel), knockbackResistance, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.CHEST));
+        }
+
+        item.setItemMeta(meta);
+
+        // Item Data Components
+        Equippable.Builder equippableBuilder = item.getData(DataComponentTypes.EQUIPPABLE).toBuilder();
+        equippableBuilder.assetId(Key.key("panita", assetKey));
+        equippableBuilder.equipSound(SoundEventKeys.ENTITY_ENDER_DRAGON_FLAP);
+
+        TagKey<DamageType> tagFire = TagKey.create(RegistryKey.DAMAGE_TYPE, Key.key("panitaend", "resists_fire_and_explosions"));
+
+        item.setData(DataComponentTypes.MAX_DAMAGE, durability);
+        item.setData(DataComponentTypes.DAMAGE_RESISTANT, DamageResistant.damageResistant(tagFire));
+        item.setData(DataComponentTypes.EQUIPPABLE, equippableBuilder.build());
+        item.setData(DataComponentTypes.GLIDER);
+
+        CustomItemManager.saveItem(key, item);
+        Messenger.prefixedBroadcast("&dSe ha creado la pieza " + displayName + "&d.");
     }
 }
