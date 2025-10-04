@@ -103,7 +103,7 @@ public class DynamicItemCreation {
         createDetailedCustomItemIfMissing(
                 "scroll_upgrade_enderchest_4",
                 Material.PAPER,
-                "<!italic><#9863E7>Pergamo de Mejora: Enderchest IV",
+                "<!italic><#9863E7>Pergamino de Mejora: Enderchest IV",
                 List.of("&8&oAl consumirlo, aumenta el espacio de", "&8tu Enderchest.", "&7", "&dConseguido de manera &5ludopática", "&ddurante Panitacraft 2.75."),
                 "panita:scroll_upgrade",
                 false,
@@ -113,7 +113,7 @@ public class DynamicItemCreation {
         createDetailedCustomItemIfMissing(
                 "scroll_upgrade_enderchest_5",
                 Material.PAPER,
-                "<!italic><#9863E7>Pergamo de Mejora: Enderchest V",
+                "<!italic><#9863E7>Pergamino de Mejora: Enderchest V",
                 List.of("&8&oAl consumirlo, aumenta el espacio de", "&8&otu Enderchest. Pero, necesario haber", "&8&oconsumido un pergamino de &7&oNivel IV", "&8antes de activa la mejora.", "&7", "&dConseguido de manera &5ludopática", "&ddurante Panitacraft 2.75."),
                 "panita:scroll_upgrade",
                 false,
@@ -123,7 +123,7 @@ public class DynamicItemCreation {
         createDetailedCustomItemIfMissing(
                 "scroll_upgrade_enderchest_6",
                 Material.PAPER,
-                "<!italic><#9863E7>Pergamo de Mejora: Enderchest VI",
+                "<!italic><#9863E7>Pergamino de Mejora: Enderchest VI",
                 List.of("&8&oAl consumirlo, aumenta el espacio de", "&8&otu Enderchest. Pero, necesario haber", "&8&oconsumido un pergamino de &7&oNivel V", "&8antes de activa la mejora.", "&7", "&dConseguido de manera &5ludopática", "&ddurante Panitacraft 2.75."),
                 "panita:scroll_upgrade",
                 false,
@@ -133,7 +133,7 @@ public class DynamicItemCreation {
         createDetailedCustomItemIfMissing(
                 "scroll_upgrade_enderchest_command",
                 Material.PAPER,
-                "<!italic><#9863E7>Pergamo de Mejora: Enderchest Inalámbrico",
+                "<!italic><#9863E7>Pergamino de Mejora: Enderchest Inalámbrico",
                 List.of("&8&oAl consumirlo, permite abrir tu Enderchest", "&8desde cualquier lugar", "&7", "&dConseguido de manera &5ludopática", "&ddurante Panitacraft 2.75."),
                 "panita:scroll_upgrade",
                 false,
@@ -290,7 +290,7 @@ public class DynamicItemCreation {
         item.setItemMeta(meta);
 
         CustomItemManager.saveItem(key, item);
-        Messenger.prefixedBroadcast("&aSe ha creado el item " + displayName + " para el modulo troll.");
+        Messenger.prefixedBroadcast("&aSe ha creado el item " + displayName + " &apara el modulo troll.");
     }
 
     private static void createRechargeableRocketIfMissing() {
